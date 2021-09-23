@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/JTTechnic/discord-oversimplified#readme",
   "dependencies": {
-    "discord-extend": "^0.1.1",
+    "discord-extend": "^0.1.2",
     "discord.js": "^13.1.0"
   },
   "devDependencies": {
