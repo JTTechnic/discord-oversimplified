@@ -44,7 +44,8 @@
   "homepage": "https://github.com/JTTechnic/discord-oversimplified#readme",
   "dependencies": {
     "discord-extend": "^0.1.2",
-    "discord.js": "^13.1.0"
+    "discord.js": "^13.1.0",
+    "require-all": "^3.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
