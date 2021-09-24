@@ -11,9 +11,9 @@ pnpm add discord-oversimplified
 ## Example usage
 Install the required dependencies:
 ```sh-session
-npm install discord-extend discord.js
-yarn add discord-extend discord.js
-pnpm add discord-extend discord.js
+npm install discord-oversimplified
+yarn add discord-oversimplified
+pnpm add discord-oversimplified
 ```
 
 Making a client:
