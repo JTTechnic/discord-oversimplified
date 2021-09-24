@@ -8,6 +8,8 @@ export interface ClientOptions extends Dext.ClientOptions {
 export class Client extends Dext.Client {
 	public constructor(options: ClientOptions);
 	public command(trigger: string, code: string): void;
+	public commandsIn(dir: string): void;
+	private _validateCommand(trigger: string, code: string): void;
 }
 
 export class Builder {

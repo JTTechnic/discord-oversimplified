@@ -14,3 +14,4 @@ const dextCommand = Builder.command(
 );
 
 client.command("test group sub", "test succeeded");
+client.commandsIn("./commands/");
