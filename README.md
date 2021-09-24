@@ -9,6 +9,13 @@ pnpm add discord-oversimplified
 ```
 
 ## Example usage
+Install the required dependencies:
+```sh-session
+npm install discord-extend discord.js
+yarn add discord-extend discord.js
+pnpm add discord-extend discord.js
+```
+
 Making a client:
 ```js
 const DOS = require("discord-oversimplified");
