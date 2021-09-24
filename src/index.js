@@ -1,3 +1,6 @@
 "use strict";
 
-module.exports = {};
+module.exports = {
+	Client: require("./Client"),
+	Builder: require("./Builder")
+};
