@@ -9,7 +9,29 @@ pnpm add discord-oversimplified
 ```
 
 ## Example usage
-Coming soon
+Making a client:
+```js
+const DOS = require("discord-oversimplified");
+
+// Automatically logs in the client
+const client = new DOS.Client({
+	intents: [], // required
+	token: "BOT_TOKEN" // required
+});
+```
+
+Making a command in the same file as the client:
+```js
+client.command("example", "this is an example command");
+```
+
+Making a command in a seperate directory:
+```js
+module.exports = {
+	trigger: "example",
+	code: "this is an example command"
+};
+```
 
 ## Links
 * [Documentation](#) (Not ready yet)
