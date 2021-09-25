@@ -3,6 +3,7 @@ import {CommandInteraction, MessageEmbed, Collection} from "discord.js";
 
 export interface ClientOptions extends Dext.ClientOptions {
 	token: string;
+	customVariables?: string | typeof Variable[];
 }
 
 export class Client extends Dext.Client {
@@ -20,12 +21,14 @@ export class Builder {
 }
 
 export abstract class Variable {
+	public constructor(interpeter: Interpeter, name: string, hiddenProperties: string[]);
 	public readonly interpeter: Interpeter;
 	public readonly name: string;
 	public readonly hiddenProperties: string[];
 }
 
 export class VariableManager {
+	public constructor(client: Client, interpeter: Interpeter);
 	public readonly variables: Collection<string, Variable>;
 }
 
@@ -37,6 +40,7 @@ export class Interpeter {
 		content: string | null;
 	};
 	protected readonly variableManager: VariableManager;
+	public constructor(client: Client);
 	public interpet(code: string): this;
 	private getLines(code: string): string[];
 	private getTokens(line: string): string[];

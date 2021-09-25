@@ -5,11 +5,14 @@ const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
 const Interpeter = require("./Interpeter");
+// eslint-disable-next-line no-unused-vars
+const Variable = require("./Variable");
 
 module.exports = class Client extends Dext.Client {
 	/**
 	 * @typedef {import("discord-extend").ClientOptions & {
 	 * 	token: string;
+	 * 	customVariables?: string | typeof Variable[];
 	 * }} ClientOptions
 	 */
 
@@ -18,6 +21,12 @@ module.exports = class Client extends Dext.Client {
 	 */
 	constructor(options) {
 		super(options);
+
+		if (typeof options.customVariables === "string") {
+			options.customVariables = Object.values(requireAll(resolve(options.customVariables)));
+		}
+
+		this.options.customVariables = options.customVariables ?? [];
 
 		this.login(options.token);
 	}
@@ -29,7 +38,7 @@ module.exports = class Client extends Dext.Client {
 	 */
 	command(trigger, code) {
 		this._validateCommand(trigger, code);
-		const interpeter = new Interpeter();
+		const interpeter = new Interpeter(this);
 		const command = Builder.command(
 			{
 				name: trigger,

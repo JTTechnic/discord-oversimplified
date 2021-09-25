@@ -9,15 +9,16 @@ const Variable = require("./Variable");
 module.exports = class VariableManager {
 	// eslint-disable-next-line valid-jsdoc
 	/**
+	 * @param {import("./Client")} client
 	 * @param {import("./Interpeter")} interpeter
 	 */
-	constructor(interpeter) {
+	constructor(client, interpeter) {
 		/**
 		 * @type {Collection<string, Variable>}
 		 * @readonly
 		 */
 		this.variables = new Collection();
-		Object.values(requireAll(join(__dirname, "variables")))
+		[...Object.values(requireAll(join(__dirname, "variables"))), ...client.options.customVariables]
 			// eslint-disable-next-line new-cap
 			.map(variable => new variable(interpeter))
 			.forEach(variable => this.variables.set(variable.name, variable));
