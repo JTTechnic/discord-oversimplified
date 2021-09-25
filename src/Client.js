@@ -6,7 +6,7 @@ const requireAll = require("require-all");
 const Builder = require("./Builder");
 const Interpeter = require("./Interpeter");
 // eslint-disable-next-line no-unused-vars
-const Variable = require("./Variable");
+const Variable = require("./variable/Variable");
 
 module.exports = class Client extends Dext.Client {
 	/**
