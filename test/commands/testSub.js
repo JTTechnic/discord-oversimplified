@@ -2,5 +2,9 @@
 
 module.exports = {
 	trigger: "test sub",
-	code: "pong 2"
+	code: `
+		embed();
+		embed.color(GREEN);
+		embed.description(test sub 1);
+	`
 };

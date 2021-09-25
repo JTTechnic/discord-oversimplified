@@ -4,6 +4,7 @@ const {resolve} = require("path");
 const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
+const Interpeter = require("./Interpeter");
 
 module.exports = class Client extends Dext.Client {
 	/**
@@ -28,13 +29,14 @@ module.exports = class Client extends Dext.Client {
 	 */
 	command(trigger, code) {
 		this._validateCommand(trigger, code);
+		const interpeter = new Interpeter();
 		const command = Builder.command(
 			{
 				name: trigger,
 				description: trigger
 			},
 			interaction => {
-				interaction.reply(code);
+				interaction.reply(interpeter.interpet(code).variables);
 			}
 		);
 		this.registry.registerCommand(command);
