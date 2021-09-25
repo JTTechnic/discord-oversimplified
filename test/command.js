@@ -8,5 +8,20 @@ const client = new Client({
 	token
 });
 
-client.command("test group sub", "pong");
-client.command("test sub", "pong 2");
+client.command(
+	"test group sub",
+	`
+	hey
+	embed();
+	embed.color(RED);
+	embed.description(test group sub);
+`
+);
+client.command(
+	"test sub",
+	`
+	embed();
+	embed.color(GREEN);
+	embed.description(test sub 1);
+`
+);
