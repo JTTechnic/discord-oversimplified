@@ -2,8 +2,8 @@
 
 // eslint-disable-next-line no-unused-vars
 const {MessageEmbed} = require("discord.js");
-const Variable = require("./Variable");
-const VariableManager = require("./VariableManager");
+const Variable = require("./variable/Variable");
+const VariableManager = require("./variable/VariableManager");
 
 module.exports = class Interpeter {
 	// eslint-disable-next-line valid-jsdoc

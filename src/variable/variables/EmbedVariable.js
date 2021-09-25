@@ -2,7 +2,7 @@
 
 const {MessageEmbed} = require("discord.js");
 // eslint-disable-next-line no-unused-vars
-const Interpeter = require("../Interpeter");
+const Interpeter = require("../../Interpeter");
 const Variable = require("../Variable");
 
 class EmbedVariable extends Variable {
