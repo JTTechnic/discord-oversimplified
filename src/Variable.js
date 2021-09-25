@@ -13,11 +13,20 @@ module.exports = class Variable {
 	 * @param {string[]} hiddenProperties - The properties to hide from the interpeter
 	 */
 	constructor(interpeter, name, hiddenProperties) {
-		/** @type {Interpeter} */
+		/**
+		 * @type {Interpeter}
+		 * @readonly
+		 */
 		this.interpeter = interpeter;
-		/** @type {string} */
+		/**
+		 * @type {string}
+		 * @readonly
+		 */
 		this.name = name;
-		/** @type {string[]} */
+		/**
+		 * @type {string[]}
+		 * @readonly
+		 */
 		this.hiddenProperties = hiddenProperties;
 	}
 };

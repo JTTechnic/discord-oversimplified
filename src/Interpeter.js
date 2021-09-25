@@ -7,10 +7,15 @@ const VariableManager = require("./VariableManager");
 
 module.exports = class Interpeter {
 	constructor() {
+		/**
+		 * @type {{
+		 * 	embeds: MessageEmbed[];
+		 * 	content: ?string;
+		 * }}
+		 * @readonly
+		 */
 		this.variables = {
-			/** @type {MessageEmbed[]} */
 			embeds: [],
-			/** @type {string} */
 			content: null
 		};
 		/**
