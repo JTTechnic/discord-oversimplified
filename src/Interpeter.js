@@ -15,7 +15,8 @@ module.exports = class Interpeter {
 		};
 		/**
 		 * @type {VariableManager}
-		 * @private
+		 * @protected
+		 * @readonly
 		 */
 		this.variableManager = new VariableManager(this);
 	}
