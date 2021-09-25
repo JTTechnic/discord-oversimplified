@@ -14,6 +14,7 @@ module.exports = class VariableManager {
 	constructor(interpeter) {
 		/**
 		 * @type {Collection<string, Variable>}
+		 * @readonly
 		 */
 		this.variables = new Collection();
 		Object.values(requireAll(join(__dirname, "variables")))
