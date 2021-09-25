@@ -1,8 +1,9 @@
-import {Client, Builder} from ".";
+import {Client, Builder, Variable} from ".";
 
 const client = new Client({
 	intents: [],
-	token: "TOKEN"
+	token: "TOKEN",
+	customVariables: [class extends Variable {}] //"dir"
 });
 
 const dextCommand = Builder.command(

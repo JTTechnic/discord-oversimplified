@@ -6,7 +6,11 @@ const Variable = require("./Variable");
 const VariableManager = require("./VariableManager");
 
 module.exports = class Interpeter {
-	constructor() {
+	// eslint-disable-next-line valid-jsdoc
+	/**
+	 * @param {import("./Client")} client - The client to get custom variables from
+	 */
+	constructor(client) {
 		/**
 		 * @type {{
 		 * 	embeds: MessageEmbed[];
@@ -23,7 +27,7 @@ module.exports = class Interpeter {
 		 * @protected
 		 * @readonly
 		 */
-		this.variableManager = new VariableManager(this);
+		this.variableManager = new VariableManager(client, this);
 	}
 
 	interpet(code) {
@@ -31,17 +35,17 @@ module.exports = class Interpeter {
 
 		for (const line of lines) {
 			const result = this.getVariable(this.getTokens(line));
-			const {variable, path} = result;
+			const {variable, path, params} = result;
 			if (!this.isValidVariable(variable)) {
 				if (!this.variables.content) this.variables.content = line;
 				else this.variables.content += `\n${line}`;
 				continue;
 			}
 			if (variable instanceof Variable) {
-				variable.construct();
+				variable.construct(...params);
 				continue;
 			}
-			eval(`this.variableManager.variables.get("${path.shift()}").${path.join(".")}(...result.params)`);
+			eval(`this.variableManager.variables.get("${path.shift()}").${path.join(".")}(...params)`);
 		}
 
 		return this;
