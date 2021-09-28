@@ -53,6 +53,7 @@ module.exports = class Client extends Dext.Client {
 			},
 			// eslint-disable-next-line no-unused-vars
 			interaction => {
+				this.environment.define("messageoptions", {});
 				evaluate(parse(code), this.environment);
 			}
 		);
@@ -96,6 +97,8 @@ module.exports = class Client extends Dext.Client {
 	 */
 	_initEnvironment() {
 		Object.values(requireAll(join(__dirname, "variables"))).forEach(variable => {
+			// eslint-disable-next-line new-cap
+			variable = new variable(this);
 			this.environment.define(variable.name, variable.definition);
 		});
 		for (const name in this.options.customVariables) {
