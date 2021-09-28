@@ -2,7 +2,7 @@
 
 const Variable = require("../Variable");
 
-module.exports = class SetUserVar extends Variable {
+module.exports = class SetUserVarVariable extends Variable {
 	constructor(client) {
 		super(client, "setuservar");
 		this.setDefinition((name, value, user, guild) => {
