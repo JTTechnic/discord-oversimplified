@@ -1,7 +1,7 @@
 "use strict";
 
-const TokenType = require("./TokenType");
 const TokenStream = require("./stream/TokenStream");
+const TokenType = require("../TokenType");
 
 module.exports = class Parser {
 	/**
