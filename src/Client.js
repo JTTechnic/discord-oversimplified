@@ -1,12 +1,10 @@
 "use strict";
 
-const {resolve} = require("path");
+const {resolve, join} = require("path");
 const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
-const Interpeter = require("./Interpeter");
-// eslint-disable-next-line no-unused-vars
-const Variable = require("./variable/Variable");
+const {Environment, evaluate, parse} = require("./interpreter");
 
 module.exports = class Client extends Dext.Client {
 	/**
@@ -28,6 +26,7 @@ module.exports = class Client extends Dext.Client {
 
 		this.options.customVariables = options.customVariables ?? [];
 
+		this._initEnvironment();
 		this.login(options.token);
 	}
 
@@ -38,14 +37,14 @@ module.exports = class Client extends Dext.Client {
 	 */
 	command(trigger, code) {
 		this._validateCommand(trigger, code);
-		const interpeter = new Interpeter(this);
 		const command = Builder.command(
 			{
 				name: trigger,
 				description: trigger
 			},
+			// eslint-disable-next-line no-unused-vars
 			interaction => {
-				interaction.reply(interpeter.interpet(code).variables);
+				evaluate(parse(code), this.environment);
 			}
 		);
 		this.registry.registerCommand(command);
@@ -80,6 +79,24 @@ module.exports = class Client extends Dext.Client {
 		}
 		if (splitTrigger.length > 3) {
 			throw new SyntaxError("The trigger of a command can have no more than two spaces");
+		}
+	}
+
+	/**
+	 * @private
+	 */
+	_initEnvironment() {
+		/**
+		 * @type {Environment}
+		 * @private
+		 * @readonly
+		 */
+		this.environment = new Environment();
+		Object.values(requireAll(join(__dirname, "variables"))).forEach(variable => {
+			this.environment.define(variable.name, variable.definition);
+		});
+		for (const name in this.options.customVariables) {
+			this.environment.define(name, this.options.customVariables[name]);
 		}
 	}
 };
