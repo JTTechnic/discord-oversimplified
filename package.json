@@ -19,6 +19,8 @@
   "scripts": {
     "test": "npm run lint && npm run lint:typings",
     "test:ts": "tsc",
+    "docs": "docgen --source src --custom docs/index.yml --output docs/docs.json",
+    "docs:test": "docgen --source src --custom docs/index.yml",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "lint:typings": "tslint typings/index.d.ts",
@@ -51,6 +53,7 @@
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-angular": "^13.1.0",
+    "@discordjs/docgen": "^0.10.0",
     "conventional-changelog-cli": "^2.1.1",
     "dtslint": "^4.1.6",
     "eslint": "^7.32.0",

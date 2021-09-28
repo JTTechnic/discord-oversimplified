@@ -8,9 +8,7 @@ const {resolve} = require("path");
  */
 class Database {
 	/**
-	 * @typedef {{
-	 * 	[name: string]: any;
-	 * }} DatabaseData
+	 * @typedef {Object} DatabaseData
 	 */
 
 	constructor(name) {

@@ -31,7 +31,7 @@ module.exports = class Variable {
 	}
 
 	// eslint-disable-next-line valid-jsdoc
-	/** @type {import("discord.js").InteractionReplyOptions} */
+	/** @type {InteractionReplyOptions} */
 	get messageOptions() {
 		return this.client.environment.get("messageoptions");
 	}
