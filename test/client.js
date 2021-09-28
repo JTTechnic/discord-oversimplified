@@ -35,3 +35,6 @@ setvar("name", "value");
 
 const getvar = client.environment.get("getvar");
 console.log(getvar("name"));
+
+const setUserVar = client.environment.get("setuservar");
+setUserVar("name", "value", "131313131313131313", "121212121212121212");
