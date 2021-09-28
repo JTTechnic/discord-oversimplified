@@ -3,10 +3,13 @@
 const {existsSync, writeFileSync, mkdirSync} = require("fs");
 const {resolve} = require("path");
 
+/**
+ * @template T
+ */
 class Database {
 	/**
 	 * @typedef {{
-	 * 	[name: string]: string;
+	 * 	[name: string]: any;
 	 * }} DatabaseData
 	 */
 
@@ -31,7 +34,7 @@ class Database {
 
 	/**
 	 * @param {string} key - The key to set the value to
-	 * @param {string} value - The value to set
+	 * @param {T} value - The value to set
 	 */
 	set(key, value) {
 		this.data[key] = value;
@@ -40,7 +43,7 @@ class Database {
 
 	/**
 	 * @param {string} key - The key to get the value from
-	 * @returns {string}
+	 * @returns {T}
 	 */
 	get(key) {
 		return this.data[key];
