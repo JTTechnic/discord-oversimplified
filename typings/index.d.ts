@@ -17,7 +17,7 @@ declare class Environment {
 	define(name: string, value: any): any;
 }
 
-declare class Client extends Dext.Client {
+declare class Client<Ready extends boolean = boolean> extends Dext.Client<Ready> {
 	public readonly environment: Environment;
 	public readonly options: ClientOptions;
 	public constructor(options: ClientOptions);
