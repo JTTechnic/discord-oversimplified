@@ -108,3 +108,4 @@ test/auth.json
 
 # Misc
 typings/tests.js
+test/database

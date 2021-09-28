@@ -4,6 +4,7 @@ const {resolve, join} = require("path");
 const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
+const Database = require("./Database");
 const {evaluate, parse} = require("./interpreter");
 const Environment = require("./interpreter/Environment");
 
@@ -28,6 +29,15 @@ module.exports = class Client extends Dext.Client {
 		}
 
 		this.options.customVariables = options.customVariable ?? {};
+
+		/**
+		 * @type {{
+		 * 	vars: Database;
+		 * }}
+		 */
+		this.databases = {
+			vars: new Database("vars")
+		};
 
 		/**
 		 * @type {Environment}
