@@ -1,23 +1,15 @@
 import Dext = require("discord-extend");
 import {CommandInteraction} from "discord.js";
+import {Environment} from "@jttechnic/interpreter";
 
-interface ClientOptions extends Dext.ClientOptions {
+export interface ClientOptions extends Dext.ClientOptions {
 	token: string;
 	customVariables?: {
 		[name: string]: any;
 	};
 }
 
-declare class Environment {
-	public constructor(parent: Environment);
-	extend(): Environment;
-	lookup(name: string): Environment;
-	get(name: string): any;
-	set(name: string, value: any): any;
-	define(name: string, value: any): any;
-}
-
-declare class Client<Ready extends boolean = boolean> extends Dext.Client<Ready> {
+export class Client<Ready extends boolean = boolean> extends Dext.Client<Ready> {
 	public readonly environment: Environment;
 	public readonly options: ClientOptions;
 	public constructor(options: ClientOptions);
@@ -27,11 +19,9 @@ declare class Client<Ready extends boolean = boolean> extends Dext.Client<Ready>
 	private _initEnvironment(): void;
 }
 
-declare class Builder {
+export class Builder {
 	public static command(
 		options: Dext.SlashSubCommandInfo,
 		runMethod: (interaction: CommandInteraction) => any
 	): Dext.SlashSubCommand;
 }
-
-export {ClientOptions, Client, Builder};

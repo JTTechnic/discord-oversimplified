@@ -1,12 +1,11 @@
 "use strict";
 
 const {resolve, join} = require("path");
+const {Environment, evaluate, parse} = require("@jttechnic/interpreter");
 const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
 const Database = require("./Database");
-const {evaluate, parse} = require("./interpreter");
-const Environment = require("./interpreter/Environment");
 
 module.exports = class Client extends Dext.Client {
 	/**
