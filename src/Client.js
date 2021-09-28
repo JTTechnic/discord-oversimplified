@@ -38,11 +38,15 @@ module.exports = class Client extends Dext.Client {
 		 * 			[key: string]: string;
 		 * 		}
 		 * 	}>;
+		 * 	globalUserVars: Database<{
+		 * 		[key: string]: string;
+		 * 	}>;
 		 * }}
 		 */
 		this.databases = {
 			vars: new Database("vars"),
-			userVars: new Database("uservars")
+			userVars: new Database("uservars"),
+			globalUserVars: new Database("globaluservars")
 		};
 
 		/**
