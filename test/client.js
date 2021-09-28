@@ -29,3 +29,6 @@ embed.thumbnail("https://example.com/image.png");
 embed.url("https://example.com");
 embed();
 console.log(client.environment.get("messageoptions").embeds);
+
+const setvar = client.environment.get("setvar");
+setvar("name", "value");
