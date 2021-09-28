@@ -32,3 +32,6 @@ console.log(client.environment.get("messageoptions").embeds);
 
 const setvar = client.environment.get("setvar");
 setvar("name", "value");
+
+const getvar = client.environment.get("getvar");
+console.log(getvar("name"));
