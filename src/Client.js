@@ -90,7 +90,6 @@ module.exports = class Client extends Dext.Client {
 	_initEnvironment() {
 		/**
 		 * @type {Environment}
-		 * @private
 		 * @readonly
 		 */
 		this.environment = new Environment();
