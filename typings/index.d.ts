@@ -18,7 +18,7 @@ declare class Environment {
 }
 
 declare class Client extends Dext.Client {
-	private readonly environment: Environment;
+	public readonly environment: Environment;
 	public readonly options: ClientOptions;
 	public constructor(options: ClientOptions);
 	public command(trigger: string, code: string): void;
