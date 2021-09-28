@@ -9,15 +9,6 @@ const Database = require("./Database");
 
 module.exports = class Client extends Dext.Client {
 	/**
-	 * @typedef {import("discord-extend").ClientOptions & {
-	 * 	token: string;
-	 * 	customVariables?: {
-	 * 		[name: string]: any;
-	 * 	};
-	 * }} ClientOptions
-	 */
-
-	/**
 	 * @param {ClientOptions} options - The options of the client
 	 */
 	constructor(options) {
@@ -29,22 +20,12 @@ module.exports = class Client extends Dext.Client {
 
 		this.options.customVariables = options.customVariable ?? {};
 
-		/**
-		 * @type {{
-		 * 	vars: Database<string>;
-		 * 	userVars: Database<{
-		 * 		[user: string]: {
-		 * 			[key: string]: string;
-		 * 		}
-		 * 	}>;
-		 * 	globalUserVars: Database<{
-		 * 		[key: string]: string;
-		 * 	}>;
-		 * }}
-		 */
 		this.databases = {
+			/** @type {Database<string>} */
 			vars: new Database("vars"),
+			/** @type {Database<Object>} */
 			userVars: new Database("uservars"),
+			/** @type {Database<Object>} */
 			globalUserVars: new Database("globaluservars")
 		};
 
@@ -126,9 +107,8 @@ module.exports = class Client extends Dext.Client {
 		}
 	}
 
-	// eslint-disable-next-line valid-jsdoc
 	/**
-	 * @param {import("discord.js").CommandInteraction} interaction - The interaction to get the variables from
+	 * @param {CommandInteraction} interaction - The interaction to get the variables from
 	 * @private
 	 */
 	_setInteractionVariables(interaction) {

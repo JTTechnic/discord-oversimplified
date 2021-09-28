@@ -8,16 +8,14 @@ module.exports = class EmbedVariable extends Variable {
 		super(client, "embed");
 
 		const embed = () => {
-			/** @type {import("discord.js").InteractionReplyOptions} */
 			const messageOptions = this.messageOptions;
 			messageOptions.embeds ??= [];
 			messageOptions.embeds.push(new MessageEmbed());
 			this.messageOptions = messageOptions;
 		};
 
-		// eslint-disable-next-line valid-jsdoc
 		/**
-		 * @param {import("discord.js").ColorResolvable} color - The new embed color
+		 * @param {ColorResolvable} color - The new embed color
 		 */
 		embed.color = color => {
 			this.lastEmbed.setColor(color);
@@ -123,7 +121,6 @@ module.exports = class EmbedVariable extends Variable {
 	}
 
 	_validateEmbeds() {
-		/** @type {import("discord.js").InteractionReplyOptions} */
 		const messageOptions = this.messageOptions;
 		if (!messageOptions.embeds || !messageOptions.embeds.length) {
 			throw new Error("Can't set color of embed before making an embed");
