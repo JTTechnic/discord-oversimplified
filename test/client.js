@@ -44,3 +44,6 @@ console.log(getUserVar("name", "131313131313131313", "121212121212121212"));
 
 const setGlobalUserVar = client.environment.get("setglobaluservar");
 setGlobalUserVar("name", "value", "131313131313131313");
+
+const getGlobalUserVar = client.environment.get("getglobaluservar");
+console.log(getGlobalUserVar("name", "131313131313131313"));
