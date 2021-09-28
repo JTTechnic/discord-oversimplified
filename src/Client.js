@@ -74,6 +74,7 @@ module.exports = class Client extends Dext.Client {
 			// eslint-disable-next-line no-unused-vars
 			interaction => {
 				this.environment.define("messageoptions", {});
+				this._setInteractionVariables(interaction);
 				evaluate(parse(code), this.environment);
 			}
 		);
@@ -124,5 +125,61 @@ module.exports = class Client extends Dext.Client {
 		for (const name in this.options.customVariables) {
 			this.environment.define(name, this.options.customVariables[name]);
 		}
+	}
+
+	// eslint-disable-next-line valid-jsdoc
+	/**
+	 * @param {import("discord.js").CommandInteraction} interaction - The interaction to get the variables from
+	 * @private
+	 */
+	_setInteractionVariables(interaction) {
+		//
+		// user data
+		//
+		this.environment.define("user", interaction.user);
+		this.environment.define("username", interaction.user.username);
+		this.environment.define("userid", interaction.user.id);
+		this.environment.define("tag", interaction.user.tag);
+		this.environment.define("avatar", interaction.user.displayAvatarURL({format: "png"}));
+		this.environment.define("member", interaction.member);
+		this.environment.define("nickname", interaction.member?.displayName);
+		//
+		// guild data
+		//
+		this.environment.define("channel", interaction.channel);
+		this.environment.define("channelname", interaction.channel?.name);
+		this.environment.define("channelid", interaction.channelId);
+		this.environment.define("guild", interaction.guild);
+		this.environment.define("guildname", interaction.guild?.name);
+		this.environment.define("guildid", interaction.guildId);
+		//
+		// message sending
+		//
+		this.environment.define("defer", ephemeral => interaction.deferReply({ephemeral}));
+		this.environment.define("reply", ephemeral => {
+			const messageOptions = this.environment.get("messageoptions");
+			messageOptions.ephemeral = ephemeral;
+			return interaction.reply(messageOptions);
+		});
+		this.environment.define("edit", () => interaction.editReply(this.environment.get("messageoptions")));
+		this.environment.define("followup", ephemeral => {
+			const messageOptions = this.environment.get("messageoptions");
+			messageOptions.ephemeral = ephemeral;
+			return interaction.followUp(messageOptions);
+		});
+		//
+		// interaction options
+		//
+		this.environment.define("stringoption", (name, required) => interaction.options.getString(name, required));
+		this.environment.define("booleanoption", (name, required) => interaction.options.getBoolean(name, required));
+		this.environment.define("integeroption", (name, required) => interaction.options.getInteger(name, required));
+		this.environment.define("channeloption", (name, required) => interaction.options.getChannel(name, required));
+		this.environment.define("memberoption", (name, required) => interaction.options.getMember(name, required));
+		this.environment.define("numberoption", (name, required) => interaction.options.getNumber(name, required));
+		this.environment.define("roleoption", (name, required) => interaction.options.getRole(name, required));
+		this.environment.define("useroption", (name, required) => interaction.options.getUser(name, required));
+		this.environment.define("mentionableoption", (name, required) =>
+			interaction.options.getMentionable(name, required)
+		);
 	}
 };
