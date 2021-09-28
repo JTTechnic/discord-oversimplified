@@ -3,7 +3,9 @@ import {CommandInteraction} from "discord.js";
 
 interface ClientOptions extends Dext.ClientOptions {
 	token: string;
-	customVariables?: string;
+	customVariables?: {
+		[name: string]: any;
+	};
 }
 
 declare class Environment {
@@ -17,6 +19,7 @@ declare class Environment {
 
 declare class Client extends Dext.Client {
 	private readonly environment: Environment;
+	public readonly options: ClientOptions;
 	public constructor(options: ClientOptions);
 	public command(trigger: string, code: string): void;
 	public commandsIn(dir: string): void;
