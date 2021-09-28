@@ -47,3 +47,9 @@ setGlobalUserVar("name", "value", "131313131313131313");
 
 const getGlobalUserVar = client.environment.get("getglobaluservar");
 console.log(getGlobalUserVar("name", "131313131313131313"));
+
+const content = client.environment.get("content");
+content.set("hey");
+content.add(", I am Jaron");
+content.addln("I am a developer");
+console.log(client.environment.get("messageoptions").content);
