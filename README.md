@@ -29,14 +29,24 @@ const client = new DOS.Client({
 
 Making a command in the same file as the client:
 ```js
-client.command("example", "this is an example command");
+client.command("example", `
+	content.set("content text");
+	embed();
+	embed.description("embed");
+	reply(true);
+`);
 ```
 
 Making a command in a seperate directory:
 ```js
 module.exports = {
 	trigger: "example",
-	code: "this is an example command"
+	code: `
+		content.set("content text");
+		embed();
+		embed.description("embed");
+		reply(true);
+	`
 };
 ```
 
