@@ -4,7 +4,8 @@ const {resolve, join} = require("path");
 const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
-const {Environment, evaluate, parse} = require("./interpreter");
+const {evaluate, parse} = require("./interpreter");
+const Environment = require("./interpreter/Environment");
 
 module.exports = class Client extends Dext.Client {
 	/**
@@ -27,6 +28,12 @@ module.exports = class Client extends Dext.Client {
 		}
 
 		this.options.customVariables = options.customVariable ?? {};
+
+		/**
+		 * @type {Environment}
+		 * @readonly
+		 */
+		this.environment = new Environment();
 
 		this._initEnvironment();
 		this.login(options.token);
@@ -88,11 +95,6 @@ module.exports = class Client extends Dext.Client {
 	 * @private
 	 */
 	_initEnvironment() {
-		/**
-		 * @type {Environment}
-		 * @readonly
-		 */
-		this.environment = new Environment();
 		Object.values(requireAll(join(__dirname, "variables"))).forEach(variable => {
 			this.environment.define(variable.name, variable.definition);
 		});
