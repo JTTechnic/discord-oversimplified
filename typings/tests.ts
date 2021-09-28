@@ -3,7 +3,11 @@ import {Client, Builder} from ".";
 const client = new Client({
 	intents: [],
 	token: "TOKEN",
-	customVariables: "dir"
+	customVariables: {
+		print: (message: string) => {
+			console.log(message);
+		}
+	}
 });
 
 const dextCommand = Builder.command(

@@ -10,7 +10,9 @@ module.exports = class Client extends Dext.Client {
 	/**
 	 * @typedef {import("discord-extend").ClientOptions & {
 	 * 	token: string;
-	 * 	customVariables?: string | typeof Variable[];
+	 * 	customVariables?: {
+	 * 		[name: string]: any;
+	 * 	};
 	 * }} ClientOptions
 	 */
 
@@ -24,7 +26,7 @@ module.exports = class Client extends Dext.Client {
 			options.customVariables = Object.values(requireAll(resolve(options.customVariables)));
 		}
 
-		this.options.customVariables = options.customVariables ?? [];
+		this.options.customVariables = options.customVariable ?? {};
 
 		this._initEnvironment();
 		this.login(options.token);
