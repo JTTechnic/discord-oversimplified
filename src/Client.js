@@ -1,7 +1,7 @@
 "use strict";
 
 const {resolve, join} = require("path");
-const {Environment, evaluate, parse} = require("@jttechnic/interpreter");
+const {Environment, evaluate, parse} = require("@discordextend/interpreter");
 const Dext = require("discord-extend");
 const requireAll = require("require-all");
 const Builder = require("./Builder");
