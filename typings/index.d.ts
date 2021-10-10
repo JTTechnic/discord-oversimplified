@@ -1,6 +1,6 @@
 import Dext = require("discord-extend");
 import {CommandInteraction} from "discord.js";
-import {Environment} from "@jttechnic/interpreter";
+import {Environment} from "@discordextend/interpreter";
 
 export interface ClientOptions extends Dext.ClientOptions {
 	token: string;
@@ -9,9 +9,34 @@ export interface ClientOptions extends Dext.ClientOptions {
 	};
 }
 
+export type DatabaseData<T = any> = {
+	[key: string]: T;
+};
+
+export class Database<T = any> {
+	private static readonly baseDir: string;
+	private readonly path: string;
+	private readonly data: DatabaseData<T>;
+	public constructor(name: string);
+	public set(key: string, value: T): void;
+	public get(key: string): T;
+	private writeData(data: DatabaseData<T>): void;
+}
+
 export class Client<Ready extends boolean = boolean> extends Dext.Client<Ready> {
 	public readonly environment: Environment;
 	public readonly options: ClientOptions;
+	public readonly databases: {
+		vars: Database;
+		userVars: Database<{
+			[user: string]: {
+				[key: string]: any;
+			};
+		}>;
+		globalUserVars: Database<{
+			[key: string]: any;
+		}>;
+	};
 	public constructor(options: ClientOptions);
 	public command(trigger: string, code: string): void;
 	public commandsIn(dir: string): void;

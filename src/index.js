@@ -2,5 +2,6 @@
 
 module.exports = {
 	Client: require("./Client"),
-	Builder: require("./Builder")
+	Builder: require("./Builder"),
+	Database: require("./Database")
 };
