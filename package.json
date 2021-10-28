@@ -1,6 +1,6 @@
 {
   "name": "discord-oversimplified",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A simplified version of discord-extend",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/JTTechnic/discord-oversimplified#readme",
   "dependencies": {
-    "@discordextend/interpreter": "^1.0.1",
+    "@discordextend/interpreter": "^1.1.0",
     "discord-extend": "^0.1.3",
     "discord.js": "^13.1.0",
     "require-all": "^3.0.0"
