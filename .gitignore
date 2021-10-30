@@ -2,3 +2,5 @@ node_modules
 dist
 coverage
 tsconfig.tsbuildinfo
+database
+auth.json
