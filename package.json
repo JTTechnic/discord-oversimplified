@@ -45,6 +45,10 @@
 	},
 	"homepage": "https://github.com/discordextend/discord-oversimplified#readme",
 	"dependencies": {
+		"@discordextend/interpreter": "^1.1.0",
+		"discord-extend": "^0.2.2",
+		"discord.js": "^13.3.0",
+		"require-all": "^3.0.0",
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
