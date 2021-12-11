@@ -1,11 +1,9 @@
-import type { Container } from "@sapphire/pieces";
 import { ColorResolvable, EmbedFieldData, MessageEmbed } from "discord.js";
 import { Variable } from "../Variable";
 
 module.exports = class EmbedVariable extends Variable {
-	public constructor(container: Container) {
+	public constructor() {
 		super(
-			container,
 			"embed",
 			Object.assign(
 				() => {

@@ -1,4 +1,4 @@
-import Dext from "discord-extend";
+import { ClientOptions as DextClientOptions, Client as DextClient } from "discord-extend";
 import { evaluate, parse } from "@discordextend/interpreter";
 import { resolve, join } from "node:path";
 import requireAll from "require-all";
@@ -13,7 +13,7 @@ import type {
 } from "discord.js";
 import { container } from "@sapphire/framework";
 
-export interface ClientOptions extends Dext.ClientOptions {
+export interface ClientOptions extends DextClientOptions {
 	/**
 	 * The token of this client
 	 */
@@ -26,7 +26,7 @@ export interface ClientOptions extends Dext.ClientOptions {
 	};
 }
 
-export class Client extends Dext.Client {
+export class Client extends DextClient {
 	public declare options: ClientOptions;
 
 	/**
@@ -100,7 +100,7 @@ export class Client extends Dext.Client {
 	 */
 	private initEnvironment() {
 		Object.values(requireAll(join(__dirname, "lib/variables"))).forEach((variable: any) => {
-			const createdVariable = new variable(this) as Variable;
+			const createdVariable = new variable() as Variable;
 			container.environment.define(createdVariable.name, createdVariable.definition);
 		});
 		for (const name in this.options.customVariables) {

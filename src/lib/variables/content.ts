@@ -1,9 +1,8 @@
-import type { Container } from "@sapphire/pieces";
 import { Variable } from "../Variable";
 
 module.exports = class ContentVariable extends Variable {
-	public constructor(container: Container) {
-		super(container, "content", {
+	public constructor() {
+		super("content", {
 			set: (text: string) => {
 				this.messageOptions.content = text;
 			},
