@@ -1,20 +1,22 @@
 import { token } from "./auth.json";
 import { Client } from "../dist";
+import { container } from "@sapphire/framework";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const client = new Client({
 	intents: [],
 	token
 });
 
 test("variables", () => {
-	const { environment } = client;
+	const { environment } = container;
 	expect(environment.get("embed")).not.toBeUndefined();
 	expect(environment.get("setvar")).not.toBeUndefined();
 	expect(environment.get("getvar")).not.toBeUndefined();
 });
 
 test("content", () => {
-	const { environment } = client;
+	const { environment } = container;
 	environment.define("messageoptions", {});
 	const getContent = () => environment.get("messageoptions").content;
 
@@ -33,7 +35,7 @@ test("content", () => {
 });
 
 test("embed", () => {
-	const { environment } = client;
+	const { environment } = container;
 	environment.define("messageoptions", {});
 	const getOption = (type: string) => {
 		return environment.get("messageoptions").embeds[0][type];
@@ -85,7 +87,7 @@ test("embed", () => {
 });
 
 test("set variable", () => {
-	const { environment } = client;
+	const { environment } = container;
 	let setvar = environment.get("setvar");
 	setvar("a", 1);
 	setvar = environment.get("setuservar");
