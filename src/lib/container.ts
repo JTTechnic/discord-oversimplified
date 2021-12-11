@@ -1,3 +1,4 @@
+import { container } from "@sapphire/framework";
 import { Database } from "./Database";
 import { Environment } from "@discordextend/interpreter";
 
@@ -19,3 +20,18 @@ declare module "@sapphire/pieces" {
 		environment: Environment;
 	}
 }
+
+container.databases = {
+	vars: new Database("vars"),
+	userVars: new Database<{
+		[user: string]:
+			| {
+					[key: string]: any;
+			  }
+			| undefined;
+	}>("uservars"),
+	globalUserVars: new Database<{
+		[key: string]: any;
+	}>("globaluservars")
+};
+container.environment = new Environment();

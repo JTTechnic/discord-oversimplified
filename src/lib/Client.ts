@@ -1,9 +1,8 @@
 import Dext from "discord-extend";
-import { Environment, evaluate, parse } from "@discordextend/interpreter";
+import { evaluate, parse } from "@discordextend/interpreter";
 import { resolve, join } from "node:path";
 import requireAll from "require-all";
 import { Builder } from "./Builder";
-import { Database } from "./Database";
 import type { Variable } from "./Variable";
 import type {
 	CommandInteraction,
@@ -36,21 +35,6 @@ export class Client extends Dext.Client {
 	 */
 	public constructor(options: ClientOptions) {
 		super(options);
-
-		container.databases = {
-			vars: new Database("vars"),
-			userVars: new Database<{
-				[user: string]:
-					| {
-							[key: string]: any;
-					  }
-					| undefined;
-			}>("uservars"),
-			globalUserVars: new Database<{
-				[key: string]: any;
-			}>("globaluservars")
-		};
-		container.environment = new Environment();
 
 		if (typeof options.customVariables === "string") {
 			options.customVariables = Object.values(requireAll(resolve(options.customVariables)));
