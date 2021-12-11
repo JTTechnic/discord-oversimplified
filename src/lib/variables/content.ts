@@ -1,9 +1,9 @@
-import type { Client } from "../Client";
+import type { Container } from "@sapphire/pieces";
 import { Variable } from "../Variable";
 
 module.exports = class ContentVariable extends Variable {
-	public constructor(client: Client) {
-		super(client, "content", {
+	public constructor(container: Container) {
+		super(container, "content", {
 			set: (text: string) => {
 				this.messageOptions.content = text;
 			},

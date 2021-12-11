@@ -12,6 +12,7 @@ import type {
 	TextChannel,
 	WebhookEditMessageOptions
 } from "discord.js";
+import { container } from "@sapphire/framework";
 
 export interface ClientOptions extends Dext.ClientOptions {
 	/**
@@ -28,27 +29,6 @@ export interface ClientOptions extends Dext.ClientOptions {
 
 export class Client extends Dext.Client {
 	public declare options: ClientOptions;
-	/**
-	 * The databases of this client
-	 */
-	public readonly databases = {
-		vars: new Database("vars"),
-		userVars: new Database<{
-			[user: string]:
-				| {
-						[key: string]: any;
-				  }
-				| undefined;
-		}>("uservars"),
-		globalUserVars: new Database<{
-			[key: string]: any;
-		}>("globaluservars")
-	};
-
-	/**
-	 * The environment of this client
-	 */
-	public readonly environment = new Environment();
 
 	/**
 	 * Create a new client
@@ -56,6 +36,21 @@ export class Client extends Dext.Client {
 	 */
 	public constructor(options: ClientOptions) {
 		super(options);
+
+		container.databases = {
+			vars: new Database("vars"),
+			userVars: new Database<{
+				[user: string]:
+					| {
+							[key: string]: any;
+					  }
+					| undefined;
+			}>("uservars"),
+			globalUserVars: new Database<{
+				[key: string]: any;
+			}>("globaluservars")
+		};
+		container.environment = new Environment();
 
 		if (typeof options.customVariables === "string") {
 			options.customVariables = Object.values(requireAll(resolve(options.customVariables)));
@@ -80,9 +75,9 @@ export class Client extends Dext.Client {
 				description: trigger
 			},
 			(interaction) => {
-				this.environment.define("messageoptions", {});
+				container.environment.define("messageoptions", {});
 				this.setInteractionVariables(interaction);
-				evaluate(parse(code), this.environment);
+				evaluate(parse(code), container.environment);
 			}
 		);
 		this.registry.registerCommands(command);
@@ -122,11 +117,11 @@ export class Client extends Dext.Client {
 	private initEnvironment() {
 		Object.values(requireAll(join(__dirname, "lib/variables"))).forEach((variable: any) => {
 			const createdVariable = new variable(this) as Variable;
-			this.environment.define(createdVariable.name, createdVariable.definition);
+			container.environment.define(createdVariable.name, createdVariable.definition);
 		});
 		for (const name in this.options.customVariables) {
 			if (this.options.customVariables.hasOwnProperty(name)) {
-				this.environment.define(name, this.options.customVariables[name]);
+				container.environment.define(name, this.options.customVariables[name]);
 			}
 		}
 	}
@@ -139,67 +134,67 @@ export class Client extends Dext.Client {
 		//
 		// User data
 		//
-		this.environment.define("user", interaction.user);
-		this.environment.define("username", interaction.user.username);
-		this.environment.define("userid", interaction.user.id);
-		this.environment.define("tag", interaction.user.tag);
-		this.environment.define("avatar", interaction.user.displayAvatarURL({ format: "png" }));
-		this.environment.define("member", interaction.member);
-		this.environment.define("nickname", (interaction.member as GuildMember).displayName);
+		container.environment.define("user", interaction.user);
+		container.environment.define("username", interaction.user.username);
+		container.environment.define("userid", interaction.user.id);
+		container.environment.define("tag", interaction.user.tag);
+		container.environment.define("avatar", interaction.user.displayAvatarURL({ format: "png" }));
+		container.environment.define("member", interaction.member);
+		container.environment.define("nickname", (interaction.member as GuildMember).displayName);
 		//
 		// Guild data
 		//
-		this.environment.define("channel", interaction.channel);
-		this.environment.define("channelname", (interaction.channel as TextChannel | null)?.name);
-		this.environment.define("channelid", interaction.channelId);
-		this.environment.define("guild", interaction.guild);
-		this.environment.define("guildname", interaction.guild?.name);
-		this.environment.define("guildid", interaction.guildId);
+		container.environment.define("channel", interaction.channel);
+		container.environment.define("channelname", (interaction.channel as TextChannel | null)?.name);
+		container.environment.define("channelid", interaction.channelId);
+		container.environment.define("guild", interaction.guild);
+		container.environment.define("guildname", interaction.guild?.name);
+		container.environment.define("guildid", interaction.guildId);
 		//
 		// Message sending
 		//
-		this.environment.define("defer", (ephemeral: boolean) => interaction.deferReply({ ephemeral }));
-		this.environment.define("reply", (ephemeral: boolean) => {
-			const messageOptions: InteractionReplyOptions = this.environment.get("messageoptions");
+		container.environment.define("defer", (ephemeral: boolean) => interaction.deferReply({ ephemeral }));
+		container.environment.define("reply", (ephemeral: boolean) => {
+			const messageOptions: InteractionReplyOptions = container.environment.get("messageoptions");
 			messageOptions.ephemeral = ephemeral;
 			return interaction.reply(messageOptions);
 		});
-		this.environment.define("edit", () =>
-			interaction.editReply(this.environment.get("messageoptions") as WebhookEditMessageOptions)
+		container.environment.define("edit", () =>
+			interaction.editReply(container.environment.get("messageoptions") as WebhookEditMessageOptions)
 		);
-		this.environment.define("followup", (ephemeral: boolean) => {
-			const messageOptions: InteractionReplyOptions = this.environment.get("messageoptions");
+		container.environment.define("followup", (ephemeral: boolean) => {
+			const messageOptions: InteractionReplyOptions = container.environment.get("messageoptions");
 			messageOptions.ephemeral = ephemeral;
 			return interaction.followUp(messageOptions);
 		});
 		//
 		// Interaction options
 		//
-		this.environment.define("stringoption", (name: string, required: boolean) =>
+		container.environment.define("stringoption", (name: string, required: boolean) =>
 			interaction.options.getString(name, required)
 		);
-		this.environment.define("booleanoption", (name: string, required: boolean) =>
+		container.environment.define("booleanoption", (name: string, required: boolean) =>
 			interaction.options.getBoolean(name, required)
 		);
-		this.environment.define("integeroption", (name: string, required: boolean) =>
+		container.environment.define("integeroption", (name: string, required: boolean) =>
 			interaction.options.getInteger(name, required)
 		);
-		this.environment.define("channeloption", (name: string, required: boolean) =>
+		container.environment.define("channeloption", (name: string, required: boolean) =>
 			interaction.options.getChannel(name, required)
 		);
-		this.environment.define("memberoption", (name: string, required: boolean) =>
+		container.environment.define("memberoption", (name: string, required: boolean) =>
 			interaction.options.getMember(name, required)
 		);
-		this.environment.define("numberoption", (name: string, required: boolean) =>
+		container.environment.define("numberoption", (name: string, required: boolean) =>
 			interaction.options.getNumber(name, required)
 		);
-		this.environment.define("roleoption", (name: string, required: boolean) =>
+		container.environment.define("roleoption", (name: string, required: boolean) =>
 			interaction.options.getRole(name, required)
 		);
-		this.environment.define("useroption", (name: string, required: boolean) =>
+		container.environment.define("useroption", (name: string, required: boolean) =>
 			interaction.options.getUser(name, required)
 		);
-		this.environment.define("mentionableoption", (name: string, required: boolean) =>
+		container.environment.define("mentionableoption", (name: string, required: boolean) =>
 			interaction.options.getMentionable(name, required)
 		);
 	}

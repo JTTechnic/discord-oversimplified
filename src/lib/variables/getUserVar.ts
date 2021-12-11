@@ -1,13 +1,13 @@
 import { Variable } from "../Variable";
-import type { Client } from "../Client";
+import type { Container } from "@sapphire/pieces";
 
 module.exports = class GetUserVarVariable extends Variable {
-	public constructor(client: Client) {
+	public constructor(container: Container) {
 		super(
-			client,
+			container,
 			"getuservar",
 			(name: string, user: string, guild: string) =>
-				((this.client.databases.userVars.get(guild) ?? {})[user] ?? {})[name]
+				((this.container.databases.userVars.get(guild) ?? {})[user] ?? {})[name]
 		);
 	}
 };
