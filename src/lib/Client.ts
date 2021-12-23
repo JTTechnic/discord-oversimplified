@@ -1,8 +1,6 @@
-import { ClientOptions as DextClientOptions, Client as DextClient } from "discord-extend";
 import { evaluate, parse } from "@discordextend/interpreter";
 import { resolve } from "node:path";
 import requireAll from "require-all";
-import { Builder } from "./Builder";
 import type {
 	CommandInteraction,
 	GuildMember,
@@ -10,58 +8,52 @@ import type {
 	TextChannel,
 	WebhookEditMessageOptions
 } from "discord.js";
-import { container } from "@sapphire/framework";
+import { Command, container, PieceContext, SapphireClient } from "@sapphire/framework";
 
-export interface ClientOptions extends DextClientOptions {
-	/**
-	 * The token of this client
-	 */
-	token: string;
-}
-
-export class Client extends DextClient {
-	public declare options: ClientOptions;
-
-	/**
-	 * Create a new client
-	 * @param options The options of this client
-	 */
-	public constructor(options: ClientOptions) {
-		super(options);
-
-		this.login(options.token).catch(console.error);
-	}
-
+export class Client extends SapphireClient {
 	/**
 	 * Add a command
 	 * @param trigger The full name of the command (with subcommand and subcommand group name)
 	 * @param code The code to run when this event is triggered
 	 */
-	public command(trigger: string, code: string) {
+	public async command(trigger: string, code: string) {
 		this.validateTrigger(trigger);
-		const command = Builder.command(
-			{
-				name: trigger,
-				description: trigger
-			},
-			(interaction) => {
+		const command = class extends Command {
+			private readonly client: Client;
+
+			public constructor(client: Client, context: PieceContext) {
+				super(context);
+				this.client = client;
+			}
+
+			public override chatInputRun(interaction: CommandInteraction) {
 				container.environment.define("messageoptions", {});
-				this.setInteractionVariables(interaction);
+				this.client.setInteractionVariables(interaction);
 				evaluate(parse(code), container.environment);
 			}
+		};
+		const commandStore = container.stores.get("commands");
+		await commandStore.insert(
+			new command(this, {
+				root: "",
+				path: "",
+				name: trigger,
+				store: commandStore
+			})
 		);
-		this.registry.registerCommands(command);
 	}
 
 	/**
 	 * Add commands from a directory
 	 * @param dir The directory to add commands from
 	 */
-	public commandsIn(dir: string) {
+	public async commandsIn(dir: string) {
 		dir = resolve(dir);
-		Object.values(requireAll(dir)).forEach((command: { trigger: string; code: string }) => {
-			this.command(command.trigger, command.code);
-		});
+		await Promise.all(
+			Object.values(requireAll(dir)).map(async (command: { trigger: string; code: string }) => {
+				return this.command(command.trigger, command.code);
+			})
+		);
 	}
 
 	/**
