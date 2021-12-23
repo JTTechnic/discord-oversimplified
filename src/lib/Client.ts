@@ -1,9 +1,8 @@
 import { ClientOptions as DextClientOptions, Client as DextClient } from "discord-extend";
 import { evaluate, parse } from "@discordextend/interpreter";
-import { resolve, join } from "node:path";
+import { resolve } from "node:path";
 import requireAll from "require-all";
 import { Builder } from "./Builder";
-import type { Variable } from "./Variable";
 import type {
 	CommandInteraction,
 	GuildMember,
@@ -18,12 +17,6 @@ export interface ClientOptions extends DextClientOptions {
 	 * The token of this client
 	 */
 	token: string;
-	/**
-	 * The custom variables of this client
-	 */
-	customVariables?: {
-		[name: string]: any;
-	};
 }
 
 export class Client extends DextClient {
@@ -36,13 +29,6 @@ export class Client extends DextClient {
 	public constructor(options: ClientOptions) {
 		super(options);
 
-		if (typeof options.customVariables === "string") {
-			options.customVariables = Object.values(requireAll(resolve(options.customVariables)));
-		}
-
-		this.options.customVariables = options.customVariables ?? {};
-
-		this.initEnvironment();
 		this.login(options.token).catch(console.error);
 	}
 
@@ -92,21 +78,6 @@ export class Client extends DextClient {
 		}
 		if (splitTrigger.length > 3) {
 			throw new Error("The trigger of a command can have no more than 3 words");
-		}
-	}
-
-	/**
-	 * Initialize environment variables
-	 */
-	private initEnvironment() {
-		Object.values(requireAll(join(__dirname, "lib/variables"))).forEach((variable: any) => {
-			const createdVariable = new variable() as Variable;
-			container.environment.define(createdVariable.name, createdVariable.definition);
-		});
-		for (const name in this.options.customVariables) {
-			if (this.options.customVariables.hasOwnProperty(name)) {
-				container.environment.define(name, this.options.customVariables[name]);
-			}
 		}
 	}
 
