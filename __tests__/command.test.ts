@@ -1,15 +1,16 @@
-import { token } from "./auth.json";
 import { Client } from "../dist";
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
+import { container } from "@sapphire/framework";
 
 const client = new Client({
-	intents: [],
-	token
+	intents: []
 });
 
-test("command", () => {
-	client.command(
+const commandStore = container.stores.get("commands");
+
+test("command", async () => {
+	await client.command(
 		"test group sub",
 		`
 		content.set("override");
@@ -19,13 +20,13 @@ test("command", () => {
 		reply();
 	`
 	);
-	expect(client.registry.commands.size).toBe(1);
-	client.registry.commands.clear();
-	expect(client.registry.commands.size).toBe(0);
+	expect(commandStore.size).toBe(1);
+	commandStore.clear();
+	expect(commandStore.size).toBe(0);
 });
 
-test("command directory", () => {
+test("command directory", async () => {
 	const commands = readdirSync(join(__dirname, "commands")).filter((file) => /^.*\.js$/.test(file)).length;
-	client.commandsIn(join(__dirname, "commands"));
-	expect(client.registry.commands.size).toBe(commands);
+	await client.commandsIn(join(__dirname, "commands"));
+	expect(commandStore.size).toBe(commands);
 });

@@ -1,12 +1,5 @@
-import { token } from "./auth.json";
-import { Client } from "../dist";
 import { container } from "@sapphire/framework";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const client = new Client({
-	intents: [],
-	token
-});
+import "../dist";
 
 test("variables", () => {
 	const { environment } = container;
