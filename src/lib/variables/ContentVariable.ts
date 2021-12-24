@@ -1,6 +1,6 @@
 import { Variable } from "../Variable";
 
-module.exports = class ContentVariable extends Variable {
+export class ContentVariable extends Variable {
 	public constructor() {
 		super("content", {
 			set: (text: string) => {
@@ -16,4 +16,4 @@ module.exports = class ContentVariable extends Variable {
 			}
 		});
 	}
-};
+}

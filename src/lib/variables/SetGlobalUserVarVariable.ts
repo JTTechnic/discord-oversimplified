@@ -1,6 +1,6 @@
 import { Variable } from "../Variable";
 
-module.exports = class SetGlobalUserVarVariable extends Variable {
+export class SetGlobalUserVarVariable extends Variable {
 	public constructor() {
 		super("setglobaluservar", (name: string, value: any, user: string) => {
 			const vars = this.container.databases.globalUserVars.get(user) ?? {};
@@ -8,4 +8,4 @@ module.exports = class SetGlobalUserVarVariable extends Variable {
 			this.container.databases.globalUserVars.set(user, vars);
 		});
 	}
-};
+}

@@ -1,7 +1,7 @@
 import { ColorResolvable, EmbedFieldData, MessageEmbed } from "discord.js";
 import { Variable } from "../Variable";
 
-module.exports = class EmbedVariable extends Variable {
+export class EmbedVariable extends Variable {
 	public constructor() {
 		super(
 			"embed",
@@ -84,4 +84,4 @@ module.exports = class EmbedVariable extends Variable {
 		}
 		return messageOptions.embeds[messageOptions.embeds.length - 1] as MessageEmbed;
 	}
-};
+}
