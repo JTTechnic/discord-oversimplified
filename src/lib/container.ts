@@ -1,7 +1,6 @@
 import { container } from "@sapphire/framework";
 import { Database } from "./Database";
 import { Environment } from "@discordextend/interpreter";
-import type { Variable } from "./Variable";
 import { ContentVariable } from "./variables/ContentVariable";
 import { EmbedVariable } from "./variables/EmbedVariable";
 import { GetGlobalUserVarVariable } from "./variables/GetGlobalUserVarVariable";
@@ -10,6 +9,7 @@ import { GetVarVariable } from "./variables/GetVarVariable";
 import { SetGlobalUserVarVariable } from "./variables/SetGlobalUserVarVariable";
 import { SetUserVarVariable } from "./variables/SetUserVarVariable";
 import { SetVarVariable } from "./variables/SetVarVariable";
+import { Util } from "./Util";
 
 declare module "@sapphire/pieces" {
 	export interface Container {
@@ -44,14 +44,13 @@ container.databases = {
 	}>("globaluservars")
 };
 container.environment = new Environment();
-function defineVariable(variable: Variable) {
-	container.environment.define(variable.name, variable.definition);
-}
-defineVariable(new ContentVariable());
-defineVariable(new EmbedVariable());
-defineVariable(new GetGlobalUserVarVariable());
-defineVariable(new GetUserVarVariable());
-defineVariable(new GetVarVariable());
-defineVariable(new SetGlobalUserVarVariable());
-defineVariable(new SetUserVarVariable());
-defineVariable(new SetVarVariable());
+Util.defineVariable(
+	new ContentVariable(),
+	new EmbedVariable(),
+	new GetGlobalUserVarVariable(),
+	new GetUserVarVariable(),
+	new GetVarVariable(),
+	new SetGlobalUserVarVariable(),
+	new SetUserVarVariable(),
+	new SetVarVariable()
+);
