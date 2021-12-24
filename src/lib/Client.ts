@@ -2,6 +2,7 @@ import { evaluate, parse } from "@discordextend/interpreter";
 import { resolve } from "node:path";
 import requireAll from "require-all";
 import type {
+	ClientOptions,
 	CommandInteraction,
 	GuildMember,
 	InteractionReplyOptions,
@@ -11,33 +12,52 @@ import type {
 import { Command, container, PieceContext, SapphireClient } from "@sapphire/framework";
 
 export class Client extends SapphireClient {
+	public override login(token?: string) {
+		if (!this.options.defaultCommandPath) {
+			container.stores.get("commands").registerPath(resolve("sapphireCommands"));
+		}
+		return super.login(token);
+	}
+
+	public constructor(options: ClientOptions) {
+		if (!options.defaultCommandPath) {
+			options.baseUserDirectory = null;
+		}
+		super(options);
+	}
+
 	/**
 	 * Add a command
-	 * @param trigger The full name of the command (with subcommand and subcommand group name)
+	 * @param trigger The full name of the command ~~(with subcommand and subcommand group name)~~
+	 *
+	 * **Note:** subcommand support is currently not available
 	 * @param code The code to run when this event is triggered
 	 */
-	public async command(trigger: string, code: string) {
+	public command(trigger: string, code: string) {
 		this.validateTrigger(trigger);
+		const setInteractionVariables = (interaction: CommandInteraction) => {
+			this.setInteractionVariables(interaction);
+		};
 		const command = class extends Command {
-			private readonly client: Client;
-
-			public constructor(client: Client, context: PieceContext) {
-				super(context);
-				this.client = client;
+			public constructor(context: PieceContext) {
+				super(context, {
+					name: trigger
+				});
 			}
 
 			public override chatInputRun(interaction: CommandInteraction) {
 				container.environment.define("messageoptions", {});
-				this.client.setInteractionVariables(interaction);
+				setInteractionVariables(interaction);
 				evaluate(parse(code), container.environment);
 			}
 		};
 		const commandStore = container.stores.get("commands");
-		await commandStore.insert(
-			new command(this, {
+		commandStore.set(
+			trigger,
+			new command({
 				root: "",
 				path: "",
-				name: trigger,
+				name: "",
 				store: commandStore
 			})
 		);
@@ -47,13 +67,11 @@ export class Client extends SapphireClient {
 	 * Add commands from a directory
 	 * @param dir The directory to add commands from
 	 */
-	public async commandsIn(dir: string) {
+	public commandsIn(dir: string) {
 		dir = resolve(dir);
-		await Promise.all(
-			Object.values(requireAll(dir)).map(async (command: { trigger: string; code: string }) => {
-				return this.command(command.trigger, command.code);
-			})
-		);
+		Object.values(requireAll(dir)).map((command: { trigger: string; code: string }) => {
+			this.command(command.trigger, command.code);
+		});
 	}
 
 	/**
@@ -68,9 +86,12 @@ export class Client extends SapphireClient {
 		if (splitTrigger.some((triggerName) => triggerName.length < 1 || triggerName.length > 32)) {
 			throw new Error("The length of trigger words must be between 1 and 32 characters");
 		}
-		if (splitTrigger.length > 3) {
-			throw new Error("The trigger of a command can have no more than 3 words");
+		if (splitTrigger.length > 1) {
+			throw new Error("Subcommands are currently not supported");
 		}
+		// if (splitTrigger.length > 3) {
+		// 	throw new Error("The trigger of a command can have no more than 3 words");
+		// }
 	}
 
 	/**
@@ -144,5 +165,15 @@ export class Client extends SapphireClient {
 		container.environment.define("mentionableoption", (name: string, required: boolean) =>
 			interaction.options.getMentionable(name, required)
 		);
+	}
+}
+
+declare module "discord.js" {
+	interface ClientOptions {
+		/**
+		 * Wether the default command path should be used to register sapphire commands
+		 * @default false
+		 */
+		defaultCommandPath?: boolean;
 	}
 }
