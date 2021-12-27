@@ -1,9 +1,8 @@
-import type { Client } from "../Client";
 import { Variable } from "../Variable";
 
-module.exports = class ContentVariable extends Variable {
-	public constructor(client: Client) {
-		super(client, "content", {
+export class ContentVariable extends Variable {
+	public constructor() {
+		super("content", {
 			set: (text: string) => {
 				this.messageOptions.content = text;
 			},
@@ -17,4 +16,4 @@ module.exports = class ContentVariable extends Variable {
 			}
 		});
 	}
-};
+}
