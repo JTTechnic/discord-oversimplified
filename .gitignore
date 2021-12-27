@@ -4,3 +4,4 @@ coverage
 tsconfig.tsbuildinfo
 database
 auth.json
+package-lock.json
