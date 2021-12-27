@@ -1,15 +1,8 @@
-import { evaluate, parse } from "@discordextend/interpreter";
 import { resolve } from "node:path";
 import requireAll from "require-all";
-import type {
-	ClientOptions,
-	CommandInteraction,
-	GuildMember,
-	InteractionReplyOptions,
-	TextChannel,
-	WebhookEditMessageOptions
-} from "discord.js";
-import { Command, container, PieceContext, SapphireClient } from "@sapphire/framework";
+import type { ClientOptions } from "discord.js";
+import { container, SapphireClient } from "@sapphire/framework";
+import { Command } from "./Command";
 
 export class Client extends SapphireClient {
 	public override login(token?: string) {
@@ -35,32 +28,13 @@ export class Client extends SapphireClient {
 	 */
 	public command(trigger: string, code: string) {
 		this.validateTrigger(trigger);
-		const setInteractionVariables = (interaction: CommandInteraction) => {
-			this.setInteractionVariables(interaction);
-		};
-		const command = class extends Command {
-			public constructor(context: PieceContext) {
-				super(context, {
-					name: trigger
-				});
-			}
-
-			public override chatInputRun(interaction: CommandInteraction) {
-				container.environment.define("messageoptions", {});
-				setInteractionVariables(interaction);
-				evaluate(parse(code), container.environment);
-			}
-		};
 		const commandStore = container.stores.get("commands");
-		commandStore.set(
-			trigger,
-			new command({
-				root: "",
-				path: "",
-				name: "",
-				store: commandStore
-			})
-		);
+		const splitTrigger = trigger.split(" ");
+		const command = commandStore.get(splitTrigger[0]) as Command | undefined;
+		if (!command) {
+			return void commandStore.set(splitTrigger[0], new Command(this, { trigger: splitTrigger, code }));
+		}
+		return void command.addCommand({ trigger: splitTrigger, code });
 	}
 
 	/**
@@ -86,85 +60,9 @@ export class Client extends SapphireClient {
 		if (splitTrigger.some((triggerName) => triggerName.length < 1 || triggerName.length > 32)) {
 			throw new Error("The length of trigger words must be between 1 and 32 characters");
 		}
-		if (splitTrigger.length > 1) {
-			throw new Error("Subcommands are currently not supported");
+		if (splitTrigger.length > 3) {
+			throw new Error("The trigger of a command can have no more than 3 words");
 		}
-		// if (splitTrigger.length > 3) {
-		// 	throw new Error("The trigger of a command can have no more than 3 words");
-		// }
-	}
-
-	/**
-	 * Set the interaction properties in the environment
-	 * @param interaction The interaction to get the properties from
-	 */
-	private setInteractionVariables(interaction: CommandInteraction) {
-		//
-		// User data
-		//
-		container.environment.define("user", interaction.user);
-		container.environment.define("username", interaction.user.username);
-		container.environment.define("userid", interaction.user.id);
-		container.environment.define("tag", interaction.user.tag);
-		container.environment.define("avatar", interaction.user.displayAvatarURL({ format: "png" }));
-		container.environment.define("member", interaction.member);
-		container.environment.define("nickname", (interaction.member as GuildMember).displayName);
-		//
-		// Guild data
-		//
-		container.environment.define("channel", interaction.channel);
-		container.environment.define("channelname", (interaction.channel as TextChannel | null)?.name);
-		container.environment.define("channelid", interaction.channelId);
-		container.environment.define("guild", interaction.guild);
-		container.environment.define("guildname", interaction.guild?.name);
-		container.environment.define("guildid", interaction.guildId);
-		//
-		// Message sending
-		//
-		container.environment.define("defer", (ephemeral: boolean) => interaction.deferReply({ ephemeral }));
-		container.environment.define("reply", (ephemeral: boolean) => {
-			const messageOptions: InteractionReplyOptions = container.environment.get("messageoptions");
-			messageOptions.ephemeral = ephemeral;
-			return interaction.reply(messageOptions);
-		});
-		container.environment.define("edit", () =>
-			interaction.editReply(container.environment.get("messageoptions") as WebhookEditMessageOptions)
-		);
-		container.environment.define("followup", (ephemeral: boolean) => {
-			const messageOptions: InteractionReplyOptions = container.environment.get("messageoptions");
-			messageOptions.ephemeral = ephemeral;
-			return interaction.followUp(messageOptions);
-		});
-		//
-		// Interaction options
-		//
-		container.environment.define("stringoption", (name: string, required: boolean) =>
-			interaction.options.getString(name, required)
-		);
-		container.environment.define("booleanoption", (name: string, required: boolean) =>
-			interaction.options.getBoolean(name, required)
-		);
-		container.environment.define("integeroption", (name: string, required: boolean) =>
-			interaction.options.getInteger(name, required)
-		);
-		container.environment.define("channeloption", (name: string, required: boolean) =>
-			interaction.options.getChannel(name, required)
-		);
-		container.environment.define("memberoption", (name: string, required: boolean) =>
-			interaction.options.getMember(name, required)
-		);
-		container.environment.define("numberoption", (name: string, required: boolean) =>
-			interaction.options.getNumber(name, required)
-		);
-		container.environment.define("roleoption", (name: string, required: boolean) =>
-			interaction.options.getRole(name, required)
-		);
-		container.environment.define("useroption", (name: string, required: boolean) =>
-			interaction.options.getUser(name, required)
-		);
-		container.environment.define("mentionableoption", (name: string, required: boolean) =>
-			interaction.options.getMentionable(name, required)
-		);
 	}
 }
 
