@@ -13,6 +13,7 @@ import { Util } from "./Util";
 import { DeleteVariable } from "./variables/DeleteVariable";
 import { HasPermVariable } from "./variables/HasPermVariable";
 import { KickVariable } from "./variables/KickVariable";
+import { BanVariable } from "./variables/BanVariable";
 
 declare module "@sapphire/pieces" {
 	export interface Container {
@@ -58,5 +59,6 @@ Util.defineVariable(
 	new SetVarVariable(),
 	new DeleteVariable(),
 	new HasPermVariable(),
-	new KickVariable()
+	new KickVariable(),
+	new BanVariable()
 );
