@@ -10,6 +10,7 @@ import { SetGlobalUserVarVariable } from "./variables/SetGlobalUserVarVariable";
 import { SetUserVarVariable } from "./variables/SetUserVarVariable";
 import { SetVarVariable } from "./variables/SetVarVariable";
 import { Util } from "./Util";
+import { DeleteVariable } from "./variables/DeleteVariable";
 
 declare module "@sapphire/pieces" {
 	export interface Container {
@@ -52,5 +53,6 @@ Util.defineVariable(
 	new GetVarVariable(),
 	new SetGlobalUserVarVariable(),
 	new SetUserVarVariable(),
-	new SetVarVariable()
+	new SetVarVariable(),
+	new DeleteVariable()
 );
