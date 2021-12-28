@@ -4,10 +4,15 @@ import { Collection, CommandInteraction } from "discord.js";
 import type { Client } from "./Client";
 import { Util } from "./Util";
 
+export interface CommandOptions {
+	trigger: string[];
+	code: string;
+}
+
 export class Command extends SapphireCommand {
 	private readonly commands: Collection<string, (interaction: CommandInteraction) => any> = new Collection();
 
-	public constructor(public readonly client: Client, { trigger, code }: { trigger: string[]; code: string }) {
+	public constructor(public readonly client: Client, options: CommandOptions) {
 		super(
 			{
 				root: "",
@@ -16,10 +21,10 @@ export class Command extends SapphireCommand {
 				store: container.stores.get("commands")
 			},
 			{
-				name: trigger[0]
+				name: options.trigger[0]
 			}
 		);
-		this.addCommand({ trigger, code });
+		this.addCommand(options);
 	}
 
 	private capitalize(string?: string) {
@@ -30,7 +35,7 @@ export class Command extends SapphireCommand {
 		return `${trigger[0]}${this.capitalize(trigger[1])}${this.capitalize(trigger[2])}`;
 	}
 
-	public addCommand({ trigger, code }: { trigger: string[]; code: string }) {
+	public addCommand({ trigger, code }: CommandOptions) {
 		this.commands.set(this.getTriggerName(trigger), (interaction) => {
 			container.environment.define("messageoptions", {});
 			Util.setInteractionVariables(interaction);
