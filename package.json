@@ -1,7 +1,7 @@
 {
 	"name": "discord-oversimplified",
-	"version": "0.4.0",
-	"description": "A simplified version of discord-extend",
+	"version": "0.5.0",
+	"description": "A framework to make discord bot development easier",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
 	"typings": "./dist/index.d.ts",
