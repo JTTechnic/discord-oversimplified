@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import requireAll from "require-all";
 import type { ClientOptions } from "discord.js";
 import { container, SapphireClient } from "@sapphire/framework";
-import { Command } from "./Command";
+import { Command, CommandOptions } from "./Command";
 
 export class Client extends SapphireClient {
 	public override login(token?: string) {
@@ -26,15 +26,16 @@ export class Client extends SapphireClient {
 	 * **Note:** subcommand support is currently not available
 	 * @param code The code to run when this event is triggered
 	 */
-	public command(trigger: string, code: string) {
+	public command(trigger: string, code: string, options?: Omit<CommandOptions, "trigger" | "code">) {
 		this.validateTrigger(trigger);
 		const commandStore = container.stores.get("commands");
 		const splitTrigger = trigger.split(" ");
 		const command = commandStore.get(splitTrigger[0]) as Command | undefined;
+		const commandOptions = { ...options, trigger: splitTrigger, code };
 		if (!command) {
-			return void commandStore.set(splitTrigger[0], new Command(this, { trigger: splitTrigger, code }));
+			return void commandStore.set(splitTrigger[0], new Command(this, commandOptions));
 		}
-		return void command.addCommand({ trigger: splitTrigger, code });
+		return void command.addCommand(commandOptions);
 	}
 
 	/**
@@ -43,8 +44,8 @@ export class Client extends SapphireClient {
 	 */
 	public commandsIn(dir: string) {
 		dir = resolve(dir);
-		Object.values(requireAll(dir)).map((command: { trigger: string; code: string }) => {
-			this.command(command.trigger, command.code);
+		Object.values(requireAll(dir)).map((command: CommandOptions & { trigger: string }) => {
+			this.command(command.trigger, command.code, command);
 		});
 	}
 
