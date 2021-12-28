@@ -61,7 +61,7 @@ module.exports = {
 
 ## Links
 * [Documentation](#) (Not ready yet)
-* [Discord-Extend Discord Server](https://discord.gg/AQwkmv7kA9)
+* [Discord-Oversimplified Discord Server](https://discord.gg/AQwkmv7kA9)
 * [Discord-Oversimplified GitHub](https://github.com/JTTechnic/discord-oversimplified)
 * [NPM](https://npmjs.org/package/discord-oversimplified)
 
