@@ -15,6 +15,7 @@ import { HasPermVariable } from "./variables/HasPermVariable";
 import { KickVariable } from "./variables/KickVariable";
 import { BanVariable } from "./variables/BanVariable";
 import { UnbanVariable } from "./variables/UnbanVariable";
+import { IsOwnerVariable } from "./variables/IsOwnerVariable";
 
 declare module "@sapphire/pieces" {
 	export interface Container {
@@ -62,5 +63,6 @@ Util.defineVariable(
 	new HasPermVariable(),
 	new KickVariable(),
 	new BanVariable(),
-	new UnbanVariable()
+	new UnbanVariable(),
+	new IsOwnerVariable()
 );
