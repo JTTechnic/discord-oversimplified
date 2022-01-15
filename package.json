@@ -1,6 +1,6 @@
 {
 	"name": "discord-oversimplified",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "A framework to make discord bot development easier",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
