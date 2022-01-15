@@ -7,10 +7,11 @@ import { Command, CommandOptions } from "./Command";
 export class Client extends SapphireClient {
 	public override async login(token?: string) {
 		if ("sapphireCommandPath" in this.options) {
-			this.stores.registerPath();
-			this.stores.get("commands").paths.clear();
-			if (this.options.sapphireCommandPath)
-				this.stores.get("commands").registerPath(resolve(this.options.sapphireCommandPath));
+			const { stores } = this;
+			const commandStore = stores.get("commands");
+			stores.registerPath();
+			commandStore.paths.clear();
+			if (this.options.sapphireCommandPath) commandStore.registerPath(resolve(this.options.sapphireCommandPath));
 		}
 		return super.login(token);
 	}
