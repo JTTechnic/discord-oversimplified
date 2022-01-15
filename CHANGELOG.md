@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/discordextend/discord-oversimplified/compare/0.2.2...0.6.0) (2022-01-15)
+
+
+### Features
+
+* **ClientOptions:** change sapphire command path ([c4379be](https://github.com/discordextend/discord-oversimplified/commit/c4379be8139d85426f7116f288fc66d6cfe81078))
+
+
+
 ## [0.5.1](https://github.com/discordextend/discord-oversimplified/compare/0.2.2...0.5.1) (2022-01-15)
 
 
