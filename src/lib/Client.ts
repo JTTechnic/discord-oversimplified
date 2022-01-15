@@ -5,15 +5,18 @@ import { container, SapphireClient } from "@sapphire/framework";
 import { Command, CommandOptions } from "./Command";
 
 export class Client extends SapphireClient {
-	public override login(token?: string) {
-		if (!this.options.defaultCommandPath) {
-			container.stores.get("commands").registerPath(resolve("sapphireCommands"));
+	public override async login(token?: string) {
+		if ("sapphireCommandPath" in this.options) {
+			this.stores.registerPath();
+			this.stores.get("commands").paths.clear();
+			if (this.options.sapphireCommandPath)
+				this.stores.get("commands").registerPath(resolve(this.options.sapphireCommandPath));
 		}
 		return super.login(token);
 	}
 
 	public constructor(options: ClientOptions) {
-		if (!options.defaultCommandPath) {
+		if ("sapphireCommandPath" in options) {
 			options.baseUserDirectory = null;
 		}
 		super(options);
@@ -70,9 +73,8 @@ export class Client extends SapphireClient {
 declare module "discord.js" {
 	interface ClientOptions {
 		/**
-		 * Wether the default command path should be used to register sapphire commands
-		 * @default false
+		 * Where sapphire commands should be loaded from, if not specified, the default path will be used
 		 */
-		defaultCommandPath?: boolean;
+		sapphireCommandPath?: string | null;
 	}
 }
