@@ -1,28 +1,23 @@
 {
 	"name": "discord-oversimplified",
-	"version": "0.6.0",
+	"version": "0.6.1",
 	"description": "A framework to make discord bot development easier",
 	"main": "./dist/index.js",
-	"module": "./dist/index.mjs",
-	"typings": "./dist/index.d.ts",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		"import": "./dist/index.mjs",
 		"require": "./dist/index.js"
 	},
-	"directories": {
-		"lib": "src",
-		"test": "__tests__"
-	},
 	"files": [
-		"dist"
+		"dist",
+		"!dist/*.tsbuildinfo"
 	],
 	"scripts": {
 		"pretest": "npm run build",
 		"test": "jest --pass-with-no-tests",
-		"test:ci": "jest --no-stack-trace --verbose --pass-with-no-tests",
 		"prebuild": "npm run clean",
-		"build": "tsup && tsc --emitDeclarationOnly",
-		"clean": "rimraf dist **/*.tsbuildinfo",
+		"build": "tsc -b src && rollup -c scripts/rollup.ts && gen-esm-wrapper dist/index.js dist/index.mjs",
+		"clean": "rimraf dist",
 		"lint": "eslint --ext mjs,js,ts",
 		"lint:fix": "eslint --ext mjs,js,ts --fix",
 		"format": "prettier --write **/*.{ts,js,json,yml,yaml}",
@@ -38,8 +33,8 @@
 		"discordjs",
 		"discord"
 	],
-	"author": "Jaron Zijlstra",
-	"license": "Apache-2.0",
+	"author": "JaronZ",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/discordextend/discord-oversimplified/issues"
 	},
@@ -54,32 +49,38 @@
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.15.8",
-		"@babel/plugin-proposal-decorators": "^7.15.8",
-		"@babel/preset-env": "^7.15.8",
-		"@babel/preset-typescript": "^7.15.0",
 		"@commitlint/cli": "^13.2.1",
-		"@commitlint/config-angular": "^13.2.0",
+		"@commitlint/config-conventional": "^16.0.0",
+		"@sapphire/eslint-config": "^4.0.9",
+		"@sapphire/ts-config": "^3.1.7",
 		"@types/jest": "^27.0.2",
+		"@types/node": "^17.0.8",
 		"@types/require-all": "^3.0.3",
 		"@typescript-eslint/eslint-plugin": "^5.2.0",
 		"@typescript-eslint/parser": "^5.2.0",
 		"babel-plugin-const-enum": "^1.1.0",
 		"babel-plugin-transform-typescript-metadata": "^0.3.2",
 		"conventional-changelog-cli": "^2.2.2",
-		"eslint": "^8.1.0",
-		"eslint-config-marine": "^9.0.6",
+		"eslint": "^8.7.0",
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-import": "^2.25.2",
 		"eslint-plugin-prettier": "^4.0.0",
+		"gen-esm-wrapper": "^1.1.3",
 		"husky": "^7.0.4",
 		"jest": "^27.3.1",
+		"jest-circus": "^27.4.6",
 		"prettier": "^2.4.1",
 		"rimraf": "^3.0.2",
-		"tsup": "^5.5.0",
-		"typescript": "^4.4.4"
+		"rollup": "^2.64.0",
+		"rollup-plugin-version-injector": "^1.3.3",
+		"standard-version": "^9.3.2",
+		"ts-jest": "^27.1.3",
+		"typescript": "^4.5.4"
 	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"engines": {
+		"node": ">=16.6.0",
+		"npm": ">=7.0.0"
 	}
 }
