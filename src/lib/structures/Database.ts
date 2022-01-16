@@ -1,11 +1,15 @@
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { Piece, PieceContext, PieceOptions } from "@sapphire/framework";
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from "node:fs";
 
 export interface DatabaseData<T = any> {
 	[key: string]: T;
 }
 
-export class Database<T = any> {
+export interface DatabaseOptions extends PieceOptions {
+	readonly name: string;
+}
+
+export class Database<T = any> extends Piece<DatabaseOptions> {
 	/**
 	 * The base directory for the databases
 	 */
@@ -25,14 +29,14 @@ export class Database<T = any> {
 	 * **Note:** database files are saved in json format
 	 * @param name The name of the database
 	 */
-	public constructor(name: string) {
-		this.path = `${Database.BASE_DIR}/${name}.json`;
+	public constructor(context: PieceContext, options: DatabaseOptions) {
+		super(context, options);
+		this.path = `${Database.BASE_DIR}/${options.name}.json`;
 
 		if (!existsSync(Database.BASE_DIR)) mkdirSync(Database.BASE_DIR);
 		if (!existsSync(this.path)) this.writeData({});
 
-		// eslint-disable-next-line @typescript-eslint/no-require-imports
-		this.data = require(resolve(this.path));
+		this.data = JSON.parse(readFileSync(this.path, { encoding: "utf8" }));
 	}
 
 	/**
