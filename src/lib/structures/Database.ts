@@ -17,7 +17,7 @@ export class Database<T = any> extends Piece<DatabaseOptions> {
 	/**
 	 * The data of the database
 	 */
-	private readonly data: DatabaseData<T>;
+	private data: DatabaseData<T> = {};
 
 	/**
 	 * Create a new database
@@ -28,11 +28,15 @@ export class Database<T = any> extends Piece<DatabaseOptions> {
 	public constructor(context: PieceContext, options: DatabaseOptions) {
 		super(context, options);
 		this.path = `${Database.BASE_DIR}/${options.name}.json`;
+	}
 
+	public override onLoad() {
 		if (!existsSync(Database.BASE_DIR)) mkdirSync(Database.BASE_DIR);
 		if (!existsSync(this.path)) this.writeData({});
 
 		this.data = JSON.parse(readFileSync(this.path, { encoding: "utf8" }));
+
+		return super.onLoad();
 	}
 
 	/**
