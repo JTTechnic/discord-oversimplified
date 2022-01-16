@@ -16,7 +16,7 @@
 		"lint": "eslint src tests scripts --ext mjs,ts --fix",
 		"format": "prettier --write {src,tests,scripts}/**/*.ts",
 		"pretest": "npm run build",
-		"test": "jest --pass-with-no-tests",
+		"test": "jest",
 		"prebuild": "npm run clean",
 		"build": "tsc -b src && rollup -c scripts/rollup.ts && gen-esm-wrapper dist/index.js dist/index.mjs",
 		"clean": "rimraf dist",
