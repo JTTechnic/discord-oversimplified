@@ -1,7 +1,11 @@
-import { Database } from "../src";
+import { Database, DatabaseStore } from "../src";
 
 describe("Database tests", () => {
-	test("database", () => {
+	test("Database is function", () => {
 		expect(typeof Database).toBe("function");
+	});
+
+	test("DatabaseStore is function", () => {
+		expect(typeof DatabaseStore).toBe("function");
 	});
 });
