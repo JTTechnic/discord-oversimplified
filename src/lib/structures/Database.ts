@@ -11,10 +11,6 @@ export interface DatabaseOptions extends PieceOptions {
 
 export class Database<T = any> extends Piece<DatabaseOptions> {
 	/**
-	 * The base directory for the databases
-	 */
-	private static readonly BASE_DIR = "database";
-	/**
 	 * The path of the database file
 	 */
 	private readonly path: string;
@@ -65,4 +61,9 @@ export class Database<T = any> extends Piece<DatabaseOptions> {
 	private writeData(data = this.data) {
 		writeFileSync(this.path, JSON.stringify(data));
 	}
+
+	/**
+	 * The base directory for the databases
+	 */
+	private static readonly BASE_DIR = "database";
 }
