@@ -6,7 +6,7 @@ import type {
 	TextChannel,
 	WebhookEditMessageOptions
 } from "discord.js";
-import type { Variable } from "./Variable";
+import type { Variable } from "./structures/Variable";
 
 export class Util {
 	public static defineVariable(...variables: Variable[]) {

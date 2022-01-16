@@ -1,10 +1,15 @@
+import type { PieceContext } from "@sapphire/framework";
 import type { GuildMember } from "discord.js";
-import { Variable } from "../Variable";
+import { Variable, VariableOptions } from "../structures/Variable";
 
 export class KickVariable extends Variable {
-	public constructor() {
-		super("kick", (member: GuildMember, reason?: string) => {
-			void member.kick(reason);
+	public constructor(context: PieceContext, options: VariableOptions) {
+		super(context, {
+			...options,
+			name: "kick",
+			definition: (member: GuildMember, reason?: string) => {
+				void member.kick(reason);
+			}
 		});
 	}
 }

@@ -1,11 +1,13 @@
+import type { PieceContext } from "@sapphire/framework";
 import { ColorResolvable, EmbedFieldData, MessageEmbed } from "discord.js";
-import { Variable } from "../Variable";
+import { Variable, VariableOptions } from "../structures/Variable";
 
 export class EmbedVariable extends Variable {
-	public constructor() {
-		super(
-			"embed",
-			Object.assign(
+	public constructor(context: PieceContext, optons: VariableOptions) {
+		super(context, {
+			...optons,
+			name: "embed",
+			definition: Object.assign(
 				() => {
 					const messageOptions = this.messageOptions;
 					messageOptions.embeds ??= [];
@@ -74,7 +76,7 @@ export class EmbedVariable extends Variable {
 					}
 				}
 			)
-		);
+		});
 	}
 
 	private get lastEmbed() {

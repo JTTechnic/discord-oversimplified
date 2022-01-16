@@ -1,10 +1,15 @@
+import type { PieceContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { Variable } from "../Variable";
+import { Variable, VariableOptions } from "../structures/Variable";
 
 export class DeleteVariable extends Variable {
-	public constructor() {
-		super("delete", (message: Message, seconds = 0) => {
-			setTimeout(() => void message.delete(), seconds * 1000);
+	public constructor(context: PieceContext, options: VariableOptions) {
+		super(context, {
+			...options,
+			name: "delete",
+			definition: (message: Message, seconds = 0) => {
+				setTimeout(() => void message.delete(), seconds * 1000);
+			}
 		});
 	}
 }

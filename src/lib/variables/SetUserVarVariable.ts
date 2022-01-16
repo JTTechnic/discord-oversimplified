@@ -1,11 +1,17 @@
-import { Variable } from "../Variable";
+import type { PieceContext } from "@sapphire/framework";
+import { Variable, VariableOptions } from "../structures/Variable";
 
 export class SetUserVarVariable extends Variable {
-	public constructor() {
-		super("setuservar", (name: string, value: any, user: string, guild: string) => {
-			const vars = this.container.databases.userVars.get(guild) ?? {};
-			(vars[user] ??= {})[name] = value;
-			this.container.databases.userVars.set(guild, vars);
+	public constructor(context: PieceContext, options: VariableOptions) {
+		super(context, {
+			...options,
+			name: "setuservar",
+			definition: (name: string, value: any, user: string, guild: string) => {
+				const database = this.container.stores.get("databases").get("uservars");
+				const vars = database.get(guild) ?? {};
+				(vars[user] ??= {})[name] = value;
+				database.set(guild, vars);
+			}
 		});
 	}
 }
