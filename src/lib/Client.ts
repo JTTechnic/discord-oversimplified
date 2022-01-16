@@ -1,10 +1,22 @@
-import { resolve } from "node:path";
+import { resolve, join } from "node:path";
 import requireAll from "require-all";
 import type { ClientOptions } from "discord.js";
 import { SapphireClient } from "@sapphire/framework";
-import { Command, CommandOptions } from "./Command";
+import { Command, CommandOptions } from "./structures/Command";
+import { DatabaseStore } from "./structures/DatabaseStore";
+import { VariableStore } from "./structures/VariableStore";
 
 export class Client extends SapphireClient {
+	public constructor(options: ClientOptions) {
+		if ("sapphireCommandPath" in options) {
+			options.baseUserDirectory = null;
+		}
+		super(options);
+		this.stores
+			.register(new DatabaseStore().registerPath(join(__dirname, "..", "databases")))
+			.register(new VariableStore().registerPath(join(__dirname, "..", "variables")));
+	}
+
 	public override login(token?: string) {
 		if ("sapphireCommandPath" in this.options) {
 			const { stores } = this;
@@ -14,13 +26,6 @@ export class Client extends SapphireClient {
 			if (this.options.sapphireCommandPath) commandStore.registerPath(resolve(this.options.sapphireCommandPath));
 		}
 		return super.login(token);
-	}
-
-	public constructor(options: ClientOptions) {
-		if ("sapphireCommandPath" in options) {
-			options.baseUserDirectory = null;
-		}
-		super(options);
 	}
 
 	/**
@@ -48,7 +53,7 @@ export class Client extends SapphireClient {
 	 */
 	public commandsIn(dir: string) {
 		dir = resolve(dir);
-		Object.values(requireAll(dir)).map((command: CommandOptions & { trigger: string }) => {
+		Object.values(requireAll(dir)).forEach((command: CommandOptions & { trigger: string }) => {
 			this.command(command.trigger, command.code, command);
 		});
 	}

@@ -1,22 +1,13 @@
 import { Store } from "@sapphire/framework";
 import { Variable } from "./Variable";
-import { join } from "node:path";
-import { Util } from "../Util";
 
 export class VariableStore extends Store<Variable> {
 	public constructor() {
-		super(Variable, { name: "variables", paths: [join(__dirname, "variables")] });
+		super(Variable, { name: "variables" });
 	}
 
-	public override async load(root: string, path: string) {
-		const variables = await super.load(root, path);
-		Util.defineVariable(...variables);
-		return variables;
-	}
-}
-
-declare module "@sapphire/framework" {
-	interface StoreRegistryEntries {
-		variables: VariableStore;
+	public override async loadAll() {
+		await super.loadAll();
+		this.forEach((variable) => this.container.environment.define(variable.name, variable.definition));
 	}
 }
