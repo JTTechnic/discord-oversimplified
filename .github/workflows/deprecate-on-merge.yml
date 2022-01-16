@@ -1,4 +1,4 @@
-# Copied from: https://github.com/sapphiredev/framework/blob/main/.github/workflows/continuous-delivery.yml
+# Copied from: https://github.com/sapphiredev/framework/blob/main/.github/workflows/deprecate-on-merge.yml
 name: NPM Deprecate PR versions On Merge
 
 on:
