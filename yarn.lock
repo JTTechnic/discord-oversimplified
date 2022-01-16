@@ -5,7 +5,7 @@ __metadata:
   version: 5
   cacheKey: 8
 
-"@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.16.7":
+"@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.16.0, @babel/code-frame@npm:^7.16.7":
   version: 7.16.7
   resolution: "@babel/code-frame@npm:7.16.7"
   dependencies:
@@ -735,6 +735,24 @@ __metadata:
     nd: dist/cli.js
     npm-deprecate: dist/cli.js
   checksum: 6a91f097d53b84ebb7dd508a0b5a44f39754178c808b8116a2a749ae99574b3332abce579bed0df669f3e057330db0141cd0c5809a52edb712b7038a12d29d44
+  languageName: node
+  linkType: hard
+
+"@favware/rollup-type-bundler@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "@favware/rollup-type-bundler@npm:1.0.7"
+  dependencies:
+    "@sapphire/utilities": ^3.1.0
+    colorette: ^2.0.16
+    commander: ^8.3.0
+    js-yaml: ^4.1.0
+    rollup: ^2.63.0
+    rollup-plugin-dts: ^4.1.0
+    typescript: ^4.5.4
+  bin:
+    rollup-type-bundler: dist/cli.js
+    rtb: dist/cli.js
+  checksum: e42a8c5b4509b78219b477acdd36baedfb97e48265796e3418baba085d0f9e65ce7ccab59c011a4eb320bcf778dfda8ff2a257910044846b02c2ca00baee73ec
   languageName: node
   linkType: hard
 
@@ -2872,6 +2890,7 @@ __metadata:
     "@discordjs/builders": ^0.9.0
     "@discordjs/collection": ^0.4.0
     "@favware/npm-deprecate": ^1.0.4
+    "@favware/rollup-type-bundler": ^1.0.7
     "@sapphire/eslint-config": ^4.0.9
     "@sapphire/framework": ^3.0.0-next.35d02d8.0
     "@sapphire/ts-config": ^3.1.7
@@ -5232,6 +5251,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"magic-string@npm:^0.25.7":
+  version: 0.25.7
+  resolution: "magic-string@npm:0.25.7"
+  dependencies:
+    sourcemap-codec: ^1.4.4
+  checksum: 727a1fb70f9610304fe384f1df0251eb7d1d9dd779c07ef1225690361b71b216f26f5d934bfb11c919b5b0e7ba50f6240c823a6f2e44cfd33d4a07d7747ca829
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^3.0.0":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
@@ -6408,6 +6436,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-dts@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "rollup-plugin-dts@npm:4.1.0"
+  dependencies:
+    "@babel/code-frame": ^7.16.0
+    magic-string: ^0.25.7
+  peerDependencies:
+    rollup: ^2.55
+    typescript: ~4.1 || ~4.2 || ~4.3 || ~4.4 || ~4.5
+  dependenciesMeta:
+    "@babel/code-frame":
+      optional: true
+  checksum: add2715d4906dccb8bbad63e02668303eee553b68e2ae8c7c686abc5ea7936ef316db43845eb12bf978002f461e43b00ecfe61bd2ffedd6c570e12a289de7c18
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-version-injector@npm:^1.3.3":
   version: 1.3.3
   resolution: "rollup-plugin-version-injector@npm:1.3.3"
@@ -6419,7 +6463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.64.0":
+"rollup@npm:^2.63.0, rollup@npm:^2.64.0":
   version: 2.64.0
   resolution: "rollup@npm:2.64.0"
   dependencies:
@@ -6658,6 +6702,13 @@ __metadata:
   version: 0.7.3
   resolution: "source-map@npm:0.7.3"
   checksum: cd24efb3b8fa69b64bf28e3c1b1a500de77e84260c5b7f2b873f88284df17974157cc88d386ee9b6d081f08fdd8242f3fc05c953685a6ad81aad94c7393dedea
+  languageName: node
+  linkType: hard
+
+"sourcemap-codec@npm:^1.4.4":
+  version: 1.4.8
+  resolution: "sourcemap-codec@npm:1.4.8"
+  checksum: b57981c05611afef31605732b598ccf65124a9fcb03b833532659ac4d29ac0f7bfacbc0d6c5a28a03e84c7510e7e556d758d0bb57786e214660016fb94279316
   languageName: node
   linkType: hard
 
