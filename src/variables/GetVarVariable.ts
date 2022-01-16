@@ -1,4 +1,4 @@
-import type { PieceContext } from "@sapphire/framework";
+import { container, PieceContext } from "@sapphire/framework";
 import { Variable, VariableOptions } from "../lib/structures/Variable";
 
 export class GetVarVariable extends Variable {
@@ -6,6 +6,7 @@ export class GetVarVariable extends Variable {
 		super(context, {
 			...options,
 			name: "getvar",
+			enabled: container.client.options.databasesEnabled,
 			definition: (name: string) => this.container.stores.get("databases").get("vars").get(name)
 		});
 	}
