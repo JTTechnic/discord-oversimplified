@@ -8,6 +8,7 @@ import { VariableStore } from "./structures/VariableStore";
 
 export class Client extends SapphireClient {
 	public constructor(options: ClientOptions) {
+		options.databasesEnabled ??= true;
 		if ("sapphireCommandPath" in options) {
 			options.baseUserDirectory = null;
 		}
@@ -80,7 +81,15 @@ declare module "discord.js" {
 	interface ClientOptions {
 		/**
 		 * Where sapphire commands should be loaded from, if not specified, the default path will be used
+		 * @default undefined
 		 */
 		sapphireCommandPath?: string | null;
+		/**
+		 * Wether or not to enable databases
+		 *
+		 * **Note:** disabling this will also disable database related variables
+		 * @default true
+		 */
+		databasesEnabled?: boolean;
 	}
 }
