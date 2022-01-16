@@ -1,11 +1,11 @@
 import { resolve } from "node:path";
 import requireAll from "require-all";
 import type { ClientOptions } from "discord.js";
-import { container, SapphireClient } from "@sapphire/framework";
+import { SapphireClient } from "@sapphire/framework";
 import { Command, CommandOptions } from "./Command";
 
 export class Client extends SapphireClient {
-	public override async login(token?: string) {
+	public override login(token?: string) {
 		if ("sapphireCommandPath" in this.options) {
 			const { stores } = this;
 			const commandStore = stores.get("commands");
@@ -32,7 +32,7 @@ export class Client extends SapphireClient {
 	 */
 	public command(trigger: string, code: string, options?: Omit<CommandOptions, "trigger" | "code">) {
 		this.validateTrigger(trigger);
-		const commandStore = container.stores.get("commands");
+		const commandStore = this.stores.get("commands");
 		const splitTrigger = trigger.split(" ");
 		const command = commandStore.get(splitTrigger[0]) as Command | undefined;
 		const commandOptions = { ...options, trigger: splitTrigger, code };
