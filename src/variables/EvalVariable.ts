@@ -7,7 +7,6 @@ export class EvalVariable extends Variable {
 		super(context, {
 			...options,
 			name: "eval",
-			// eslint-disable-next-line no-eval
 			definition: (code: string) => evaluate(parse(code), this.container.environment)
 		});
 	}
