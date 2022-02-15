@@ -1,11 +1,10 @@
 import { evaluate, parse } from "@discordextend/interpreter";
 import { Command as SapphireCommand, container, Events } from "@sapphire/framework";
-import type {
+import {
 	CommandInteraction,
 	GuildMember,
 	InteractionReplyOptions,
 	Snowflake,
-	TextChannel,
 	WebhookEditMessageOptions
 } from "discord.js";
 import { Collection } from "@discordjs/collection";
@@ -110,12 +109,18 @@ export class Command extends SapphireCommand {
 		container.environment.define("tag", interaction.user.tag);
 		container.environment.define("avatar", interaction.user.displayAvatarURL({ format: "png" }));
 		container.environment.define("member", interaction.member);
-		container.environment.define("nickname", (interaction.member as GuildMember).displayName);
+		container.environment.define(
+			"nickname",
+			interaction.member instanceof GuildMember ? interaction.member.displayName : undefined
+		);
 		//
 		// Guild data
 		//
 		container.environment.define("channel", interaction.channel);
-		container.environment.define("channelname", (interaction.channel as TextChannel | null)?.name);
+		container.environment.define(
+			"channelname",
+			interaction.channel?.isText() && interaction.channel.type !== "DM" ? interaction.channel.name : undefined
+		);
 		container.environment.define("channelid", interaction.channelId);
 		container.environment.define("guild", interaction.guild);
 		container.environment.define("guildname", interaction.guild?.name);
