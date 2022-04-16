@@ -44,7 +44,7 @@ export class Database<T = any> extends Piece<DatabaseOptions> {
 	 * @param key The key to set
 	 * @param value The value for the key
 	 */
-	public set(key: string, value: T) {
+	public set(key: string, value: T): void {
 		this.data[key] = value;
 		this.writeData();
 	}

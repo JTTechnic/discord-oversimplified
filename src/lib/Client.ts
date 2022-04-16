@@ -52,7 +52,7 @@ export class Client extends SapphireClient {
 	 * Add commands from a directory
 	 * @param dir The directory to add commands from
 	 */
-	public commandsIn(dir: string) {
+	public commandsIn(dir: string): void {
 		dir = resolve(dir);
 		Object.values(requireAll(dir)).forEach((command: CommandOptions & { trigger: string }) => {
 			this.command(command.trigger, command.code, command);

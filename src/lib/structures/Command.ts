@@ -38,7 +38,7 @@ export class Command extends SapphireCommand {
 		this.addCommand(options);
 	}
 
-	public addCommand({ trigger, code, cooldown = 0, globalCooldown = 0, cooldownError }: CommandOptions) {
+	public addCommand({ trigger, code, cooldown = 0, globalCooldown = 0, cooldownError }: CommandOptions): void {
 		const triggerName = this.getTriggerName(trigger);
 		this.commands.set(triggerName, (interaction) => {
 			console.log("Time to check cooldowns");
