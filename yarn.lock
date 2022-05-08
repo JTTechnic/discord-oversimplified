@@ -2912,7 +2912,7 @@ __metadata:
     prettier: 2.5.1
     pretty-quick: 3.1.3
     require-all: ^3.0.0
-    rollup: 2.64.0
+    rollup: 2.72.1
     rollup-plugin-version-injector: 1.3.3
     standard-version: 9.3.2
     ts-jest: 27.1.3
@@ -6462,7 +6462,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:2.64.0, rollup@npm:^2.63.0":
+"rollup@npm:2.72.1":
+  version: 2.72.1
+  resolution: "rollup@npm:2.72.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 3dca122129f560acc3c54dd5bd5f9470dd562d74f61c652c57b6a4355a963c0828640382ebff544f1b0e71387733a51fb963d6f761ae1f05a84f5923bbde883c
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.63.0":
   version: 2.64.0
   resolution: "rollup@npm:2.64.0"
   dependencies:
