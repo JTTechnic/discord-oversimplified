@@ -1,5 +1,5 @@
 {
-	"name": "discord-oversimplified",
+	"name": "simple.djs",
 	"version": "0.6.4",
 	"description": "A framework to make discord bot development easier",
 	"main": "./dist/index.js",
