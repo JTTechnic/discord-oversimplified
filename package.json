@@ -29,7 +29,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/discordextend/discord-oversimplified.git"
+		"url": "git+https://github.com/simpledjs/simple.djs.git"
 	},
 	"keywords": [
 		"discord-extend",
@@ -39,9 +39,9 @@
 	"author": "JaronZ",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/discordextend/discord-oversimplified/issues"
+		"url": "https://github.com/simpledjs/simple.djs/issues"
 	},
-	"homepage": "https://github.com/discordextend/discord-oversimplified#readme",
+	"homepage": "https://github.com/simpledjs/simple.djs#readme",
 	"dependencies": {
 		"@discordjs/builders": "^0.9.0",
 		"@discordjs/collection": "^0.4.0",
