@@ -1,4 +1,4 @@
-import { evaluate, parse } from "@discordextend/interpreter";
+import { evaluate, parse } from "@hammerlang/interpreter";
 import { Command as SapphireCommand, container, Events } from "@sapphire/framework";
 import {
 	CommandInteraction,

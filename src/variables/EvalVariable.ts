@@ -1,4 +1,4 @@
-import { evaluate, parse } from "@discordextend/interpreter";
+import { evaluate, parse } from "@hammerlang/interpreter";
 import type { PieceContext } from "@sapphire/framework";
 import { Variable, VariableOptions } from "../lib/structures/Variable";
 
