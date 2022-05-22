@@ -1,22 +1,22 @@
 <div align="center">
 	<br>
-	<p><img width="800" src="https://raw.githubusercontent.com/discordextend/images/main/dos-full.png" alt="Discord Oversimplified Logo"></p>
+	<p><img width="800" src="https://raw.githubusercontent.com/simpledjs/images/main/dos-full.png" alt="Discord Oversimplified Logo"></p>
 	<br>
 	<a href="https://discord.gg/AQwkmv7kA9"><img src="https://img.shields.io/discord/882085501694246982?color=5865F2&logo=discord&logoColor=white" alt="Discord Server"></a>
-	<a href="https://npmjs.com/package/discord-oversimplified"><img src="https://img.shields.io/npm/v/discord-oversimplified.svg?maxAge=3600" alt="NPM Version"></a>
-	<a href="https://npmjs.com/package/discord-oversimplified"><img src="https://img.shields.io/npm/dt/discord-oversimplified.svg?maxAge=3600" alt="NPM Downloads"></a>
+	<a href="https://npmjs.com/package/@simpledjs/framework"><img src="https://img.shields.io/npm/v/@simpledjs/framework.svg?maxAge=3600" alt="NPM Version"></a>
+	<a href="https://npmjs.com/package/@simpledjs/framework"><img src="https://img.shields.io/npm/dt/@simpledjs/framework.svg?maxAge=3600" alt="NPM Downloads"></a>
 </div>
 
 ## About
 
-A simplified version of discord-extend
+A framework built with discord.js and the sapphire framework to make discord bot development easier
 
 ## Installation
 
 ```sh-session
-npm install discord-oversimplified
-yarn add discord-oversimplified
-pnpm add discord-oversimplified
+npm install @simpledjs/framework
+yarn add @simpledjs/framework
+pnpm add @simpledjs/framework
 ```
 
 ## Example usage
@@ -24,18 +24,18 @@ pnpm add discord-oversimplified
 Install the required dependencies:
 
 ```sh-session
-npm install discord-oversimplified
-yarn add discord-oversimplified
-pnpm add discord-oversimplified
+npm install @simpledjs/framework
+yarn add @simpledjs/framework
+pnpm add @simpledjs/framework
 ```
 
 Making a client:
 
 ```js
-const DOS = require("discord-oversimplified");
+const SDJS = require("@simpledjs/framework");
 
 // Automatically logs in the client
-const client = new DOS.Client({
+const client = new SDJS.Client({
 	intents: [], // required
 	token: "BOT_TOKEN" // required
 });
@@ -71,17 +71,15 @@ module.exports = {
 
 ## Links
 
-- [Documentation](#) (Not ready yet)
-- [Discord-Oversimplified Discord Server](https://discord.gg/AQwkmv7kA9)
-- [Discord-Oversimplified GitHub](https://github.com/JTTechnic/discord-oversimplified)
-- [NPM](https://npmjs.org/package/discord-oversimplified)
+- [Documentation](https://www.notion.so/Discord-Oversimplified-Documentation-8e528936c677448394641d5d4bdbbeac) (temporary docs)
+- [simple.djs Discord Server](https://discord.gg/AQwkmv7kA9)
+- [simple.djs GitHub](https://github.com/simpledjs/simple.djs)
+- [NPM](https://npmjs.org/package/@simpledjs/framework)
 
 ## Contributing
 
-Before you create an issue, please take a look if it has already been reported or suggested, also check the latest [documentation](https://jttechnic.github.io/discordextend/docs).
-
-See [the guide to contributing](https://github.com/JTTechnic/discord-extend/blob/master/.github/CONTRIBUTING.md) to submit a PR.
+Before you create an issue, please take a look if it has already been reported or suggested, also check the latest [documentation](https://www.notion.so/Discord-Oversimplified-Documentation-8e528936c677448394641d5d4bdbbeac).
 
 ## Help
 
-If you are having problems with discord-oversimplified, you are welcome to join the [Discord-Extend Server](https://discord.gg/AQwkmv7kA9)
+If you are having problems with simple.djs, you are welcome to join the [simple.djs Server](https://discord.gg/AQwkmv7kA9)
