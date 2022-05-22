@@ -1,5 +1,5 @@
 import { container } from "@sapphire/framework";
-import { Environment } from "@discordextend/interpreter";
+import { Environment } from "@hammerlang/interpreter";
 
 declare module "@sapphire/pieces" {
 	export interface Container {
