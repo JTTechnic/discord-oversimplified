@@ -1,4 +1,4 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>simpledjs/.github:renovate"]
+	"extends": ["github>simpledjs/.github:simpledjs-renovate"]
 }
